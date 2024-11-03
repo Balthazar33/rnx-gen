@@ -7,8 +7,9 @@ const resourceTypes = {
 const commands = {
   CREATE: {
     description:
-      "create a new resource (type: screen, hook, etc.) with the given name",
-    command: "create <type> <name>",
+      "generate a new resource (type: screen, hook, etc.) with the given name",
+    command: "generate <type> <name>",
+    alias: 'g',
     options: {
       NO_TEST: "--no-test",
       NO_DIR: "--no-dir",

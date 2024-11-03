@@ -18,6 +18,7 @@ program.name(CLI_NAME).description(CLI_DESCRIPTION).version(CLI_VERSION);
 
 program
   .command(commands.CREATE.command)
+  .alias(commands.CREATE.alias)
   .description(commands.CREATE.description)
   .option(commands.CREATE.options.NO_CONST, "do not create a constants file")
   .option(commands.CREATE.options.NO_TEST, "do not create a test file")
