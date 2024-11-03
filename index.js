@@ -44,4 +44,6 @@ program.on("command:*", () => {
   process.exit(1);
 });
 
-program.parse(process.argv);
+try {
+  program.parse(process.argv);
+} catch (error) {}

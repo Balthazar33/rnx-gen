@@ -42,7 +42,6 @@ const ${name} = () => {
 };
 
 export default ${name};
-
 `
   );
   consoleCreate(`${basePath}/${name}.tsx`);
@@ -72,7 +71,23 @@ export default ${name};
       console.log(`File ${testFile} already exists. Skipping file creation...`);
       return;
     }
-    await fs.writeFile(testFile, "");
+    await fs.writeFile(
+      testFile,
+      `import React from 'react';
+
+import {it, describe, expect} from '@jest/globals';
+import renderer from 'react-test-renderer';
+
+import ${name} from '../${name}';
+
+describe('${name}', () => {
+  it('renders correctly', () => {
+    const elementTree = renderer.create(<${name} />).toJSON();
+    expect(elementTree).toMatchSnapshot();
+  });
+});
+`
+    );
     consoleCreate(`${basePath}/${name}.test.tsx`);
   }
   //-----------------------------------------------------------------------------
@@ -93,7 +108,11 @@ export default ${name};
   //-----------------------------------------------------------------------------
 
   // Creating index file
-  await fs.writeFile(indexFile, `export { default } from './${name}.tsx';`);
+  await fs.writeFile(
+    indexFile,
+    `export { default } from './${name}.tsx';
+  `
+  );
   consoleCreate(basePath + "/index.ts");
 
   consoleDone();
