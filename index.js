@@ -11,6 +11,8 @@ const {
   commands,
 } = require("./constants");
 const { createComponent } = require("./commands/createComponent");
+const { consoleError } = require("./helpers");
+const { createslice } = require("./commands/createSlice");
 
 const program = new Command();
 
@@ -33,8 +35,10 @@ program
       createHook(name, options);
     } else if (type === resourceTypes.COMPONENT) {
       createComponent(name, options);
+    } else if (type === resourceTypes.SLICE) {
+      createslice(name);
     } else {
-      console.log(`unsupported resource type: ${type}`);
+      consoleError(`Unsupported resource type: ${type}`);
     }
   });
 

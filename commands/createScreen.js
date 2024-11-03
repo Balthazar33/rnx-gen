@@ -1,8 +1,18 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { doesFileExist, consoleDone, consoleCreate } = require("../helpers");
+const {
+  doesFileExist,
+  consoleDone,
+  consoleCreate,
+  iFileNameValid,
+  consoleError,
+} = require("../helpers");
 
 const createScreen = async (name, options) => {
+  if (!iFileNameValid(name)) {
+    consoleError(`Invalid file name: ${name}`);
+    return;
+  }
   if (!name.toLowerCase().endsWith("screen")) {
     name = name + "Screen";
   }

@@ -10,6 +10,10 @@ const doesFileExist = async (filePath) => {
   }
 };
 
+const iFileNameValid = (string) => {
+  return /^[A-Za-z][A-Za-z0-9-]*$/.test(string);
+};
+
 const consoleDone = () => {
   console.log(chalk.green("DONE!"));
 };
@@ -18,4 +22,15 @@ const consoleCreate = (filename) => {
   console.log(chalk.blueBright(`CREATED: ${filename}`));
 };
 
-module.exports = { doesFileExist, consoleDone, consoleCreate };
+const consoleError = (message) => {
+  console.log(chalk.redBright("ERROR"));
+  console.log(message);
+};
+
+module.exports = {
+  doesFileExist,
+  consoleDone,
+  consoleCreate,
+  iFileNameValid,
+  consoleError,
+};

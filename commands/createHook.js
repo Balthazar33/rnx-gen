@@ -1,8 +1,17 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { doesFileExist, consoleDone, consoleCreate } = require("../helpers");
+const {
+  doesFileExist,
+  consoleDone,
+  consoleCreate,
+  iFileNameValid,
+} = require("../helpers");
 
 const createHook = async (name, options) => {
+  if (!iFileNameValid(name)) {
+    consoleError(`Invalid file name: ${name}`);
+    return;
+  }
   if (!name.toLowerCase().startsWith("use")) {
     name = "use" + name.substring(0, 1).toUpperCase() + name.substring(1);
   }
