@@ -29,16 +29,22 @@ program
     "do not create a separate folder for the files"
   )
   .action((type, name, options) => {
-    if (type === resourceTypes.SCREEN) {
-      createScreen(name, options);
-    } else if (type === resourceTypes.HOOK) {
-      createHook(name, options);
-    } else if (type === resourceTypes.COMPONENT) {
-      createComponent(name, options);
-    } else if (type === resourceTypes.SLICE) {
-      createslice(name);
-    } else {
-      consoleError(`Unsupported resource type: ${type}`);
+    try {
+      if (type === resourceTypes.SCREEN) {
+        createScreen(name, options);
+      } else if (type === resourceTypes.HOOK) {
+        createHook(name, options);
+      } else if (type === resourceTypes.COMPONENT) {
+        createComponent(name, options);
+      } else if (type === resourceTypes.SLICE) {
+        createslice(name);
+      } else {
+        consoleError(`Unsupported resource type: ${type}`);
+      }
+    } catch (error) {
+      consoleError(
+        `An error occurred while executing the script. Please try again.`
+      );
     }
   });
 
