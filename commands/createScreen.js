@@ -111,7 +111,7 @@ describe('${name}', () => {
   await fs.writeFile(
     indexFile,
     `export { default } from './${name}.tsx';
-  `
+`
   );
   consoleCreate(basePath + "/index.ts");
 
