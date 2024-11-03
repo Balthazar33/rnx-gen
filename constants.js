@@ -3,6 +3,7 @@ const resourceTypes = {
   HOOK: "hook",
   COMPONENT: "component",
   SLICE: "slice",
+  REDUX: "redux",
 };
 
 const commands = {
@@ -16,6 +17,12 @@ const commands = {
       NO_DIR: "--no-dir",
       NO_CONST: "--no-const",
     },
+  },
+  CREATE_REDUX: {
+    description:
+      "set up redux files (rootReducer, slices, store, and utilities)",
+    command: "redux",
+    options: {},
   },
 };
 

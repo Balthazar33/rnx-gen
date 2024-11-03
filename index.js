@@ -13,10 +13,24 @@ const {
 const { createComponent } = require("./commands/createComponent");
 const { consoleError } = require("./helpers");
 const { createslice } = require("./commands/createSlice");
+const { createRedux } = require("./commands/createRedux");
 
 const program = new Command();
 
 program.name(CLI_NAME).description(CLI_DESCRIPTION).version(CLI_VERSION);
+
+program
+  .command(commands.CREATE_REDUX.command)
+  .description(commands.CREATE_REDUX.description)
+  .action(() => {
+    try {
+      createRedux();
+    } catch (error) {
+      consoleError(
+        `An error occurred while executing the script. Please try again.`
+      );
+    }
+  });
 
 program
   .command(commands.CREATE.command)
@@ -50,7 +64,7 @@ program
 
 program.exitOverride();
 program.on("command:*", () => {
-  console.error("invalid command:", program.args.join(" "));
+  consoleError("invalid command:", program.args.join(" "));
   console.log("See --help for available commands.");
   process.exit(1);
 });
