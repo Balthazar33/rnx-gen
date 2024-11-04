@@ -13,7 +13,7 @@ npm i rnx-gen --save-dev
 ### 1. Generate files for a new screen with boilerplate code for each file
 
 ```bash
-npx rnx-gen g <alias for generate> screen UserProfile
+npx rnx-gen g screen UserProfile
 ```
 
 #### Result:
