@@ -1,11 +1,11 @@
-# rn-gen
+# rnx-gen
 
 ## Opinionated resources generator for React Native
 
 ### Installation
 
 ```bash
-npm i rn-gen --save-dev
+npm i rnx-gen --save-dev
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm i rn-gen --save-dev
 ### Generate files for a new screen with boilerplate code for each file
 
 ```bash
-rn-gen generate (OR just g) screen UserProfile
+rnx-gen generate (OR just g) screen UserProfile
 ```
 
 #### Result:
@@ -42,7 +42,7 @@ src
 ### Generate files for a new component with boilerplate code for each file
 
 ```bash
-rn-gen generate (OR just g) component AlertModal
+rnx-gen generate (OR just g) component AlertModal
 ```
 
 #### Result:
@@ -68,7 +68,7 @@ src
 ### Generate a new hook file with boilerplate code
 
 ```bash
-rn-gen generate (OR just g) hook profileData
+rnx-gen generate (OR just g) hook profileData
 ```
 
 #### Result:
@@ -92,7 +92,7 @@ src
 ### Generate a new redux slice with boilerplate code
 
 ```bash
-rn-gen generate (OR just g) slice users
+rnx-gen generate (OR just g) slice users
 ```
 
 #### Result:
@@ -107,7 +107,7 @@ src
 ### Set up redux files (redux toolkit) with boilerplate code
 
 ```bash
-rn-gen redux
+rnx-gen redux
 ```
 
 #### Result:
