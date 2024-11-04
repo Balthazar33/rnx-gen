@@ -104,7 +104,7 @@ src
             |-usersSlice.ts
 ```
 
-### 5. Set up redux files (redux toolkit) with boilerplate code
+### 5. Set up redux files (redux toolkit) with boilerplate code for each file
 
 ```bash
 npx rnx-gen redux
