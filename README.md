@@ -10,10 +10,10 @@ npm i rnx-gen --save-dev
 
 ## Usage
 
-### Generate files for a new screen with boilerplate code for each file
+### 1. Generate files for a new screen with boilerplate code for each file
 
 ```bash
-rnx-gen generate (OR just g) screen UserProfile
+npx rnx-gen g <alias for generate> screen UserProfile
 ```
 
 #### Result:
@@ -39,10 +39,10 @@ src
 | --no-const | Do not create the constants file                 |
 | --no-style | Do not create the styles file                    |
 
-### Generate files for a new component with boilerplate code for each file
+### 2. Generate files for a new component with boilerplate code for each file
 
 ```bash
-rnx-gen generate (OR just g) component AlertModal
+npx rnx-gen g component AlertModal
 ```
 
 #### Result:
@@ -65,10 +65,10 @@ src
 | --no-dir   | Do not create a separate folder for the component |
 | --no-style | Do not create the styles file                     |
 
-### Generate a new hook file with boilerplate code
+### 3. Generate a new hook file with boilerplate code
 
 ```bash
-rnx-gen generate (OR just g) hook profileData
+npx rnx-gen g hook profileData
 ```
 
 #### Result:
@@ -89,10 +89,10 @@ src
 | --no-test | Do not create the test file                  |
 | --no-dir  | Do not create a separate folder for the hook |
 
-### Generate a new redux slice with boilerplate code
+### 4. Generate a new redux slice with boilerplate code
 
 ```bash
-rnx-gen generate (OR just g) slice users
+npx rnx-gen g slice users
 ```
 
 #### Result:
@@ -104,10 +104,10 @@ src
             |-usersSlice.ts
 ```
 
-### Set up redux files (redux toolkit) with boilerplate code
+### 5. Set up redux files (redux toolkit) with boilerplate code
 
 ```bash
-rnx-gen redux
+npx rnx-gen redux
 ```
 
 #### Result:
