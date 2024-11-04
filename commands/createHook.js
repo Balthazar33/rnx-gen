@@ -46,10 +46,11 @@ const ${name} = () => {
 };
 
 export default ${name};
-
 `
   );
-  consoleCreate(`${basePath}/${hookFileName}`);
+  consoleCreate(
+    `${basePath}${options?.dir ? `/${name}/` : "/"}${hookFileName}`
+  );
   //-----------------------------------------------------------------------------
 
   //-----------------------------------------------------------------------------
@@ -60,10 +61,31 @@ export default ${name};
       console.log(`File ${testFile} already exists. Skipping file creation...`);
       return;
     }
-    await fs.writeFile(testFile, "");
-    consoleCreate(`${basePath}/${name}.test.ts`);
+    await fs.writeFile(
+      testFile,
+      `import {describe} from '@jest/globals';
+
+import ${name} from './${name}';
+
+describe('${name}', () => {});
+`
+    );
+    consoleCreate(
+      `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.test.ts`
+    );
   }
   //-----------------------------------------------------------------------------
+
+  // Creating index file
+  if (options?.dir) {
+    const indexFile = path.join(dir, "index.ts");
+    await fs.writeFile(
+      indexFile,
+      `export { default } from './${name}.ts';
+`
+    );
+    consoleCreate(basePath + `/${name}/index.ts`);
+  }
 
   consoleDone();
 };

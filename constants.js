@@ -9,18 +9,19 @@ const resourceTypes = {
 const commands = {
   CREATE: {
     description:
-      "generate a new resource (type: screen, hook, etc.) with the given name",
+      "Generate a new resource (type: screen, hook, component, redux slice) with the given name",
     command: "generate <type> <name>",
     alias: "g",
     options: {
       NO_TEST: "--no-test",
       NO_DIR: "--no-dir",
       NO_CONST: "--no-const",
+      NO_STYLE: "--no-style",
     },
   },
   CREATE_REDUX: {
     description:
-      "set up redux files (rootReducer, slices, store, and utilities)",
+      "Set up boilerplate code for redux toolkit (rootReducer, slices, store, and utilities)",
     command: "redux",
     options: {},
   },

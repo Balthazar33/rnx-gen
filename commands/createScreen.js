@@ -43,13 +43,23 @@ const createScreen = async (name, options) => {
     `import React from 'react';
 import { View, Text } from 'react-native';
 
+${options?.style ? `import {useStyles} from './${name}.styles';
+
 const ${name} = () => {
+  const style = useStyles();
+
+  return (
+    <View style={[style]}>
+      <Text>${name} Screen</Text>
+    </View>
+  );
+};` : `const ${name} = () => {
+
   return (
     <View>
       <Text>${name} Screen</Text>
     </View>
-  );
-};
+  );`}
 
 export default ${name};
 `
@@ -98,7 +108,30 @@ describe('${name}', () => {
 });
 `
     );
-    consoleCreate(`${basePath}/${name}.test.tsx`);
+    consoleCreate(`${basePath}/${name}/__tests__/${name}.test.tsx`);
+  }
+  //-----------------------------------------------------------------------------
+
+  //-----------------------------------------------------------------------------
+  if (options?.style) {
+    const stylesFile = path.join(dir, `${name}.styles.ts`);
+    // Creating styles file, if doesn't exist
+    if (await doesFileExist(stylesFile)) {
+      console.log(
+        `File ${stylesFile} already exists. Skipping file creation...`
+      );
+      return;
+    }
+    await fs.writeFile(
+      stylesFile,
+      `import { StyleSheet } from 'react-native';
+
+export const useStyles = () => {
+  return StyleSheet.create({});
+};
+`
+    );
+    consoleCreate(`${basePath}/${name}.styles.ts`);
   }
   //-----------------------------------------------------------------------------
 
@@ -123,7 +156,7 @@ describe('${name}', () => {
     `export { default } from './${name}.tsx';
 `
   );
-  consoleCreate(basePath + "/index.ts");
+  consoleCreate(basePath + `/${name}/index.ts`);
 
   consoleDone();
 };

@@ -38,6 +38,7 @@ program
   .description(commands.CREATE.description)
   .option(commands.CREATE.options.NO_CONST, "do not create a constants file")
   .option(commands.CREATE.options.NO_TEST, "do not create a test file")
+  .option(commands.CREATE.options.NO_STYLE, "do not create a styles file")
   .option(
     commands.CREATE.options.NO_DIR,
     "do not create a separate folder for the files"

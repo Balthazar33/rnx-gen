@@ -43,18 +43,57 @@ const createComponent = async (name, options) => {
     `import React from 'react';
 import { View, Text } from 'react-native';
 
+${
+  options?.style
+    ? `import {useStyles} from './${name}.styles';
+
 const ${name} = () => {
+  const style = useStyles();
+  return (
+    <View style={[style]}>
+      <Text>${name} component</Text>
+    </View>
+  );
+};
+`
+    : `const ${name} = () => {
   return (
     <View>
       <Text>${name} component</Text>
     </View>
   );
 };
-
+`
+}
 export default ${name};
 `
   );
-  consoleCreate(`${basePath}/${name}.tsx`);
+  consoleCreate(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.tsx`);
+  //-----------------------------------------------------------------------------
+
+  //-----------------------------------------------------------------------------
+  if (options?.style) {
+    const stylesFile = path.join(dir, `${name}.styles.ts`);
+    // Creating styles file, if doesn't exist
+    if (await doesFileExist(stylesFile)) {
+      console.log(
+        `File ${stylesFile} already exists. Skipping file creation...`
+      );
+      return;
+    }
+    await fs.writeFile(
+      stylesFile,
+      `import { StyleSheet } from 'react-native';
+
+export const useStyles = () => {
+  return StyleSheet.create({});
+};
+`
+    );
+    consoleCreate(
+      `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.styles.ts`
+    );
+  }
   //-----------------------------------------------------------------------------
 
   //-----------------------------------------------------------------------------
@@ -84,9 +123,22 @@ describe('${name}', () => {
 });
 `
     );
-    consoleCreate(`${basePath}/${name}.test.tsx`);
+    consoleCreate(
+      `${basePath}${options?.dir ? `/${name}/` : "/"}__tests__/${name}.test.tsx`
+    );
   }
   //-----------------------------------------------------------------------------
+
+  // Creating index file
+  if (options?.dir) {
+    const indexFile = path.join(dir, "index.ts");
+    await fs.writeFile(
+      indexFile,
+      `export { default } from './${name}.tsx';
+`
+    );
+    consoleCreate(basePath + `/${name}/index.ts`);
+  }
 
   consoleDone();
 };
