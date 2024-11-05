@@ -9,6 +9,10 @@ const {
 } = require("../helpers");
 
 const createScreen = async (name, options) => {
+  if (options?.path && !options?.path?.startsWith("src")) {
+    consoleError("Path must begin with 'src'");
+    return;
+  }
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;
@@ -17,7 +21,10 @@ const createScreen = async (name, options) => {
     name = name + "Screen";
   }
   name = name.substring(0, 1).toUpperCase() + name.substring(1);
-  const basePath = "src/screens";
+  let basePath = path.normalize("src/screens");
+  if (options?.path) {
+    basePath = path.normalize(options?.path);
+  }
   const dir = path.join(process.cwd(), basePath, name);
   const componentFile = path.join(dir, `${name}.tsx`);
   const typesFile = path.join(dir, `${name}.types.ts`);
@@ -30,8 +37,7 @@ const createScreen = async (name, options) => {
   }
   await fs.ensureDir(dir);
 
-  // Creating UI file, if doesn't exist
-  //-----------------------------------------------------------------------------
+  //Creating UI file, if doesn't exist-------------------------------------------
   if (await doesFileExist(componentFile)) {
     console.log(
       `File ${componentFile} already exists. Skipping file creation...`
@@ -43,7 +49,9 @@ const createScreen = async (name, options) => {
     `import React from 'react';
 import { View, Text } from 'react-native';
 
-${options?.style ? `import {useStyles} from './${name}.styles';
+${
+  options?.style
+    ? `import {useStyles} from './${name}.styles';
 
 const ${name} = () => {
   const style = useStyles();
@@ -53,22 +61,23 @@ const ${name} = () => {
       <Text>${name} Screen</Text>
     </View>
   );
-};` : `const ${name} = () => {
+};`
+    : `const ${name} = () => {
 
   return (
     <View>
       <Text>${name} Screen</Text>
     </View>
-  );`}
+  );`
+}
 
 export default ${name};
 `
   );
-  consoleCreate(`${basePath}/${name}.tsx`);
+  consoleCreate(path.normalize(`${basePath}/${name}.tsx`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating types file, if doesn't exist
+  //Creating types file, if doesn't exist----------------------------------------
   if (await doesFileExist(typesFile)) {
     console.log(`File ${typesFile} already exists. Skipping file creation...`);
     return;
@@ -78,12 +87,11 @@ export default ${name};
     `export interface ${name}Props {}
 `
   );
-  consoleCreate(`${basePath}/${name}.types.ts`);
+  consoleCreate(path.normalize(`${basePath}/${name}.types.ts`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
+  //Creating test file, if doesn't exist-----------------------------------------
   if (options.test) {
-    // Creating test file, if doesn't exist
     const testsDir = path.join(dir, "__tests__");
     await fs.ensureDir(testsDir);
     const testFile = path.join(testsDir, `${name}.test.tsx`);
@@ -108,14 +116,15 @@ describe('${name}', () => {
 });
 `
     );
-    consoleCreate(`${basePath}/${name}/__tests__/${name}.test.tsx`);
+    consoleCreate(
+      path.normalize(`${basePath}/${name}/__tests__/${name}.test.tsx`)
+    );
   }
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
+  //Creating styles file, if doesn't exist---------------------------------------
   if (options?.style) {
     const stylesFile = path.join(dir, `${name}.styles.ts`);
-    // Creating styles file, if doesn't exist
     if (await doesFileExist(stylesFile)) {
       console.log(
         `File ${stylesFile} already exists. Skipping file creation...`
@@ -131,13 +140,12 @@ export const useStyles = () => {
 };
 `
     );
-    consoleCreate(`${basePath}/${name}.styles.ts`);
+    consoleCreate(path.normalize(`${basePath}/${name}.styles.ts`));
   }
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
+  //Creating constants file, if doesn't exist------------------------------------
   if (options.const) {
-    // Creating constants file, if doesn't exist
     const constantsFile = path.join(dir, `${name}.constants.ts`);
     if (await doesFileExist(constantsFile)) {
       console.log(
@@ -146,17 +154,18 @@ export const useStyles = () => {
       return;
     }
     await fs.writeFile(constantsFile, "");
-    consoleCreate(`${basePath}/${name}.constants.ts`);
+    consoleCreate(path.normalize(`${basePath}/${name}.constants.ts`));
   }
   //-----------------------------------------------------------------------------
 
-  // Creating index file
+  // Creating index file---------------------------------------------------------
   await fs.writeFile(
     indexFile,
     `export { default } from './${name}.tsx';
 `
   );
-  consoleCreate(basePath + `/${name}/index.ts`);
+  consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+  //-----------------------------------------------------------------------------
 
   consoleDone();
 };

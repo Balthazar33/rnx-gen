@@ -49,7 +49,7 @@ export const {} = ${name}.actions;
 export default ${name}.reducer;
 `
   );
-  consoleCreate(`${basePath}/${sliceFileName}`);
+  consoleCreate(path.normalize(`${basePath}/${sliceFileName}`));
   //-----------------------------------------------------------------------------
 
   consoleDone();

@@ -13,15 +13,15 @@ const createRedux = async () => {
   const selectorFile = path.join(selectorsDirectory, "appSelector.ts");
   const slicesFile = path.join(slicesDirectory, "appSlice.ts");
 
-  // Creating redux directory, if doesn't exist
+  // Creating redux directory, if doesn't exist----------------------------------
   if (await fs.pathExists(dir)) {
     console.log(`Directory ${dir} already exists!`);
     return;
   }
   await fs.ensureDir(dir);
-
   //-----------------------------------------------------------------------------
-  // Creating reducers file, if doesn't exist
+
+  //-Creating reducers file, if doesn't exist------------------------------------
   if (await doesFileExist(reducersFile)) {
     console.log(
       `File ${reducersFile} already exists. Skipping file creation...`
@@ -40,11 +40,10 @@ const rootReducer = combineReducers({
 export default rootReducer;
 `
   );
-  consoleCreate(`${basePath}/rootReducer.ts`);
+  consoleCreate(path.normalize(`${basePath}/rootReducer.ts`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating slices directory & file, if doesn't exist
+  //Creating slices directory & file, if doesn't exist---------------------------
   await fs.ensureDir(slicesDirectory);
   if (await doesFileExist(slicesFile)) {
     console.log(`File ${slicesFile} already exists. Skipping file creation...`);
@@ -72,11 +71,10 @@ export const {setLoading} = appSlice.actions;
 export default appSlice.reducer;
 `
   );
-  consoleCreate(`${basePath}/slices/appSlice.ts`);
+  consoleCreate(path.normalize(`${basePath}/slices/appSlice.ts`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating store file, if doesn't exist
+  //Creating store file, if doesn't exist----------------------------------------
   if (await doesFileExist(storeFile)) {
     console.log(`File ${storeFile} already exists. Skipping file creation...`);
     return;
@@ -101,11 +99,10 @@ const configureAppStore = (preloadedState?: any) => {
 export default configureAppStore;
 `
   );
-  consoleCreate(`${basePath}/store.ts`);
+  consoleCreate(path.normalize(`${basePath}/store.ts`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating store.utils file, if doesn't exist
+  //Creating store.utils file, if doesn't exist----------------------------------
   if (await doesFileExist(storeUtilsFile)) {
     console.log(
       `File ${storeUtilsFile} already exists. Skipping file creation...`
@@ -127,18 +124,16 @@ export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 `
   );
-  consoleCreate(`${basePath}/store.utils.ts`);
+  consoleCreate(path.normalize(`${basePath}/store.utils.ts`));
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating selectors directory, if doesn't exist
+  //Creating selectors directory, if doesn't exist-------------------------------
   if (!(await fs.pathExists(selectorsDirectory))) {
     await fs.ensureDir(selectorsDirectory);
   }
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
-  // Creating appSelector.ts file, if doesn't exist
+  //Creating appSelector.ts file, if doesn't exist-------------------------------
   if (await doesFileExist(selectorFile)) {
     console.log(
       `File ${selectorFile} already exists. Skipping file creation...`
@@ -153,7 +148,7 @@ import {RootState} from './store.utils';
 export const selectLoading = createSelector((state: RootState) => state.app.loading);
 `
   );
-  consoleCreate(`${basePath}/selectors/appSelector.ts`);
+  consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
   //-----------------------------------------------------------------------------
 
   consoleDone();

@@ -33,11 +33,12 @@ src
 
 #### Command options:
 
-| Option     | Descriptions                                     |
-| ---------- | ------------------------------------------------ |
-| --no-test  | Do not create the tests folder and the test file |
-| --no-const | Do not create the constants file                 |
-| --no-style | Do not create the styles file                    |
+| Option     | Descriptions                                                    |
+| ---------- | --------------------------------------------------------------- |
+| --no-test  | Do not create the tests folder and the test file                |
+| --no-const | Do not create the constants file                                |
+| --no-style | Do not create the styles file                                   |
+| --path     | Custom path starting from src (example --path=src/screens/auth) |
 
 ### 2. Generate files for a new component with boilerplate code for each file
 
@@ -59,11 +60,12 @@ src
 
 #### Command options:
 
-| Option     | Descriptions                                      |
-| ---------- | ------------------------------------------------- |
-| --no-test  | Do not create the tests folder and the test file  |
-| --no-dir   | Do not create a separate folder for the component |
-| --no-style | Do not create the styles file                     |
+| Option     | Descriptions                                                        |
+| ---------- | ------------------------------------------------------------------- |
+| --no-test  | Do not create the tests folder and the test file                    |
+| --no-dir   | Do not create a separate folder for the component                   |
+| --no-style | Do not create the styles file                                       |
+| --path     | Custom path starting from src (example --path=src/components/cards) |
 
 ### 3. Generate a new hook file with boilerplate code
 
@@ -84,10 +86,11 @@ src
 
 #### Command options:
 
-| Option    | Descriptions                                 |
-| --------- | -------------------------------------------- |
-| --no-test | Do not create the test file                  |
-| --no-dir  | Do not create a separate folder for the hook |
+| Option    | Descriptions                                                  |
+| --------- | ------------------------------------------------------------- |
+| --no-test | Do not create the test file                                   |
+| --no-dir  | Do not create a separate folder for the hook                  |
+| --path    | Custom path starting from src (example --path=src/hooks/data) |
 
 ### 4. Generate a new redux slice with boilerplate code
 

@@ -8,12 +8,19 @@ const {
 } = require("../helpers");
 
 const createComponent = async (name, options) => {
+  if (options?.path && !options?.path?.startsWith("src")) {
+    consoleError("Path must begin with 'src'");
+    return;
+  }
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
   name = name.substring(0, 1).toUpperCase() + name.substring(1);
-  const basePath = "src/components";
+  let basePath = path.normalize("src/components");
+  if (options?.path) {
+    basePath = path.normalize(options?.path);
+  }
   /**
    * Do not create a separate folder for the component if --no-dir option is passed.
    * Instead, add the component file and the test file(optionally) to the components folder.
@@ -23,15 +30,15 @@ const createComponent = async (name, options) => {
     : path.join(process.cwd(), basePath);
   const componentFile = path.join(dir, `${name}.tsx`);
 
-  // Creating directory, if doesn't exist
+  // Creating directory, if doesn't exist----------------------------------------
   if ((await fs.pathExists(dir)) && options?.dir) {
     console.log(`Directory ${dir} already exists!`);
     return;
   }
   await fs.ensureDir(dir);
-
   //-----------------------------------------------------------------------------
-  // Creating component file, if doesn't exist
+
+  //Creating styles file, if doesn't exist---------------------------------------
   if (await doesFileExist(componentFile)) {
     console.log(
       `File ${componentFile} already exists. Skipping file creation...`
@@ -68,13 +75,14 @@ const ${name} = () => {
 export default ${name};
 `
   );
-  consoleCreate(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.tsx`);
+  consoleCreate(
+    path.normalize(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.tsx`)
+  );
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
+  //Creating styles file, if doesn't exist---------------------------------------
   if (options?.style) {
     const stylesFile = path.join(dir, `${name}.styles.ts`);
-    // Creating styles file, if doesn't exist
     if (await doesFileExist(stylesFile)) {
       console.log(
         `File ${stylesFile} already exists. Skipping file creation...`
@@ -91,14 +99,15 @@ export const useStyles = () => {
 `
     );
     consoleCreate(
-      `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.styles.ts`
+      path.normalize(
+        `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.styles.ts`
+      )
     );
   }
   //-----------------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------------
+  //Creating test file, if doesn't exist-----------------------------------------
   if (options.test) {
-    // Creating test file, if doesn't exist
     const testsDir = path.join(dir, "__tests__");
     await fs.ensureDir(testsDir);
     const testFile = path.join(testsDir, `${name}.test.tsx`);
@@ -124,12 +133,16 @@ describe('${name}', () => {
 `
     );
     consoleCreate(
-      `${basePath}${options?.dir ? `/${name}/` : "/"}__tests__/${name}.test.tsx`
+      path.normalize(
+        `${basePath}${
+          options?.dir ? `/${name}/` : "/"
+        }__tests__/${name}.test.tsx`
+      )
     );
   }
   //-----------------------------------------------------------------------------
 
-  // Creating index file
+  // Creating index file---------------------------------------------------------
   if (options?.dir) {
     const indexFile = path.join(dir, "index.ts");
     await fs.writeFile(
@@ -137,8 +150,9 @@ describe('${name}', () => {
       `export { default } from './${name}.tsx';
 `
     );
-    consoleCreate(basePath + `/${name}/index.ts`);
+    consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
   }
+  //-----------------------------------------------------------------------------
 
   consoleDone();
 };

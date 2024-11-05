@@ -17,6 +17,7 @@ const commands = {
       NO_DIR: "--no-dir",
       NO_CONST: "--no-const",
       NO_STYLE: "--no-style",
+      PATH: "--path <path>", // custom path for the file(s)
     },
   },
   CREATE_REDUX: {
