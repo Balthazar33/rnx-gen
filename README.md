@@ -2,7 +2,7 @@
 
 ## Opinionated resources generator for React Native
 
-![create screen example](https://github.com/Balthazar33/rnx-gen/blob/main/rnx-gen-example-screen.png?raw=true)
+![create screen example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-example-screen.png?raw=true)
 
 ### Installation
 
