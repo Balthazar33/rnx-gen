@@ -21,6 +21,10 @@
     "commander": "^12.1.0",
     "fs-extra": "^11.2.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Balthazar33/rnx-gen.git"
+  },
   "bin": {
     "rnx-gen": "./index.js"
   }

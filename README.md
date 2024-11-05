@@ -92,7 +92,7 @@ src
 | --no-dir  | Do not create a separate folder for the hook                  |
 | --path    | Custom path starting from src (example --path=src/hooks/data) |
 
-### 4. Generate a new redux slice with boilerplate code
+### 4. Generate a new Redux slice with boilerplate code
 
 ```bash
 npx rnx-gen g slice users
@@ -107,7 +107,7 @@ src
             |-usersSlice.ts
 ```
 
-### 5. Set up redux files (redux toolkit) with boilerplate code for each file
+### 5. Set up Redux files (Redux toolkit) with boilerplate code for each file
 
 ```bash
 npx rnx-gen redux
