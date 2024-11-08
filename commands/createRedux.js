@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const path = require("path");
-const { doesFileExist, consoleDone, consoleCreate } = require("../helpers");
+const { doesFileExist, consoleDone, consoleCreate, consoleError } = require("../helpers");
 
 const createRedux = async () => {
   const basePath = "src/redux";
@@ -143,7 +143,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
   await fs.writeFile(
     selectorFile,
     `import {createSelector} from '@reduxjs/toolkit';
-import {RootState} from './store.utils';
+import {RootState} from '../store.utils';
 
 export const selectLoading = createSelector((state: RootState) => state.app.loading);
 `
