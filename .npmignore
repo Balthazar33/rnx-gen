@@ -1,2 +1,5 @@
 #ignore assets
 assets/
+
+#packed files
+*.tgz
