@@ -58,6 +58,7 @@ src
                 |-AlertModal.test.ts
             |-AlertModal.tsx
             |-AlertModal.styles.ts
+            |-index.ts
 ```
 
 #### Command options:
