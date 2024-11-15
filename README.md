@@ -4,6 +4,9 @@
 
 ![create screen example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-example-screen.png?raw=true)
 
+<a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/v/rnx-gen.svg" alt="NPM Version" /></a>
+<a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/l/rnx-gen.svg" alt="Package License" /></a>
+
 ### Installation
 
 ```bash
@@ -58,6 +61,7 @@ src
                 |-AlertModal.test.ts
             |-AlertModal.tsx
             |-AlertModal.styles.ts
+            |-index.ts
 ```
 
 #### Command options:
