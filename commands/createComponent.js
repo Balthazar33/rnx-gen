@@ -57,7 +57,7 @@ ${
 const ${name} = () => {
   const style = useStyles();
   return (
-    <View style={[style]}>
+    <View style={style.container}>
       <Text>${name} component</Text>
     </View>
   );
@@ -94,7 +94,9 @@ export default ${name};
       `import { StyleSheet } from 'react-native';
 
 export const useStyles = () => {
-  return StyleSheet.create({});
+  return StyleSheet.create({
+    container: {},
+  });
 };
 `
     );

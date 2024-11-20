@@ -57,7 +57,7 @@ const ${name} = () => {
   const style = useStyles();
 
   return (
-    <View style={[style]}>
+    <View style={styles.container}>
       <Text>${name} Screen</Text>
     </View>
   );
@@ -136,7 +136,9 @@ describe('${name}', () => {
       `import { StyleSheet } from 'react-native';
 
 export const useStyles = () => {
-  return StyleSheet.create({});
+  return StyleSheet.create({
+    container: {},
+  });
 };
 `
     );
