@@ -29,7 +29,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.0.0";
+const CLI_VERSION = "1.0.9";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 
 module.exports = {
