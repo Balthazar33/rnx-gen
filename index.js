@@ -53,7 +53,7 @@ program
       } else if (type === resourceTypes.COMPONENT) {
         createComponent(name, options);
       } else if (type === resourceTypes.SLICE) {
-        createslice(name);
+        createslice(name, options);
       } else {
         consoleError(`Unsupported resource type: ${type}`);
       }

@@ -7,9 +7,13 @@ const {
   iFileNameValid,
 } = require("../helpers");
 
-const createslice = async (name) => {
+const createslice = async (name, options) => {
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
+    return;
+  }
+  if (options?.path && !options?.path?.startsWith("src")) {
+    consoleError("Path must begin with 'src'");
     return;
   }
   let nameWithoutSlice;
@@ -19,7 +23,10 @@ const createslice = async (name) => {
   } else {
     nameWithoutSlice = name?.slice?.(0, -5);
   }
-  const basePath = "src/redux/slices";
+  let basePath = path.normalize("src/redux/slices");
+  if (options?.path) {
+    basePath = path.normalize(options?.path);
+  }
   const dir = path.join(process.cwd(), basePath);
   const sliceFileName = `${name}.ts`;
   const sliceFile = path.join(dir, sliceFileName);

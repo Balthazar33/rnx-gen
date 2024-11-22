@@ -49,7 +49,7 @@ const createHook = async (name, options) => {
     `import React, {useState, useEffect} from 'react';
 
 const ${name} = () => {
-    return {};
+  return {};
 };
 
 export default ${name};
