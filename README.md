@@ -38,12 +38,13 @@ src
 
 #### Command options:
 
-| Option     | Descriptions                                                     |
-| ---------- | ---------------------------------------------------------------- |
-| --no-test  | Do not create the tests folder and the test file                 |
-| --no-const | Do not create the constants file                                 |
-| --no-style | Do not create the styles file                                    |
-| --path     | Custom path beginning with src (example --path=src/screens/auth) |
+| Option      | Descriptions                                                     |
+| ----------- | ---------------------------------------------------------------- |
+| --no-test   | Do not create the tests folder and the test file                 |
+| --no-const  | Do not create the constants file                                 |
+| --no-style  | Do not create the styles file                                    |
+| --path      | Custom path beginning with src (example --path=src/screens/auth) |
+| --keep-name | Use the resource name provided as an option without modification |
 
 ### 2. Generate files for a new component with boilerplate code for each file
 
@@ -66,12 +67,13 @@ src
 
 #### Command options:
 
-| Option     | Descriptions                                                         |
-| ---------- | -------------------------------------------------------------------- |
-| --no-test  | Do not create the tests folder and the test file                     |
-| --no-dir   | Do not create a separate folder for the component                    |
-| --no-style | Do not create the styles file                                        |
-| --path     | Custom path beginning with src (example --path=src/components/cards) |
+| Option      | Descriptions                                                         |
+| ----------- | -------------------------------------------------------------------- |
+| --no-test   | Do not create the tests folder and the test file                     |
+| --no-dir    | Do not create a separate folder for the component                    |
+| --no-style  | Do not create the styles file                                        |
+| --path      | Custom path beginning with src (example --path=src/components/cards) |
+| --keep-name | Use the resource name provided as an option without modification     |
 
 ### 3. Generate a new hook file with boilerplate code
 
@@ -92,11 +94,12 @@ src
 
 #### Command options:
 
-| Option    | Descriptions                                                   |
-| --------- | -------------------------------------------------------------- |
-| --no-test | Do not create the test file                                    |
-| --no-dir  | Do not create a separate folder for the hook                   |
-| --path    | Custom path beginning with src (example --path=src/hooks/data) |
+| Option      | Descriptions                                                     |
+| ----------- | ---------------------------------------------------------------- |
+| --no-test   | Do not create the test file                                      |
+| --no-dir    | Do not create a separate folder for the hook                     |
+| --path      | Custom path beginning with src (example --path=src/hooks/data)   |
+| --keep-name | Use the resource name provided as an option without modification |
 
 ### 4. Generate a new Redux slice with boilerplate code
 
@@ -115,9 +118,10 @@ src
 
 #### Command options:
 
-| Option | Descriptions                                                       |
-| ------ | ------------------------------------------------------------------ |
-| --path | Custom path beginning with src (example --path=src/redux/reducers) |
+| Option      | Descriptions                                                       |
+| ----------- | ------------------------------------------------------------------ |
+| --path      | Custom path beginning with src (example --path=src/redux/reducers) |
+| --keep-name | Use the resource name provided as an option without modification   |
 
 ### 5. Set up Redux files (Redux toolkit) with boilerplate code for each file
 

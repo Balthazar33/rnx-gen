@@ -40,6 +40,7 @@ program
   .option(commands.CREATE.options.NO_TEST, "do not create a test file")
   .option(commands.CREATE.options.NO_STYLE, "do not create a styles file")
   .option(commands.CREATE.options.PATH, "custom path for the files, starting from src")
+  .option(commands.CREATE.options.KEEP_NAME, "use the resource name provided without modification")
   .option(
     commands.CREATE.options.NO_DIR,
     "do not create a separate folder for the files"

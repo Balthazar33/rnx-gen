@@ -16,8 +16,10 @@ const createHook = async (name, options) => {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
-  if (!name.toLowerCase().startsWith("use")) {
-    name = "use" + name.substring(0, 1).toUpperCase() + name.substring(1);
+  if(!options.keepName) {
+    if (!name.toLowerCase().startsWith("use")) {
+      name = "use" + name.substring(0, 1).toUpperCase() + name.substring(1);
+    }
   }
   let basePath = path.normalize("src/hooks");
   if (options?.path) {

@@ -18,6 +18,7 @@ const commands = {
       NO_CONST: "--no-const",
       NO_STYLE: "--no-style",
       PATH: "--path <path>", // custom path for the file(s)
+      KEEP_NAME: "--keep-name" // Use the name passed by the user as is
     },
   },
   CREATE_REDUX: {
@@ -29,7 +30,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.0.11";
+const CLI_VERSION = "1.0.12";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 
 module.exports = {

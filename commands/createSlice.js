@@ -19,9 +19,13 @@ const createslice = async (name, options) => {
   let nameWithoutSlice;
   if (!name.toLowerCase().endsWith("slice")) {
     nameWithoutSlice = name;
-    name = name + "Slice";
   } else {
     nameWithoutSlice = name?.slice?.(0, -5);
+  }
+  if(!options.keepName) {
+    if (!name.toLowerCase().endsWith("slice")) {
+      name = name + "Slice";
+    } 
   }
   let basePath = path.normalize("src/redux/slices");
   if (options?.path) {

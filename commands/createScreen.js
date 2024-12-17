@@ -17,10 +17,14 @@ const createScreen = async (name, options) => {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
-  if (!name.toLowerCase().endsWith("screen")) {
-    name = name + "Screen";
+  // Modify file name only if keep-name is not passed 
+  if(!options.keepName) {
+    if (!name.toLowerCase().endsWith("screen")) {
+      name = name + "Screen";
+    }
+    name = name.substring(0, 1).toUpperCase() + name.substring(1);
   }
-  name = name.substring(0, 1).toUpperCase() + name.substring(1);
+  
   let basePath = path.normalize("src/screens");
   if (options?.path) {
     basePath = path.normalize(options?.path);

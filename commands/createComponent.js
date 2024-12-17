@@ -16,7 +16,10 @@ const createComponent = async (name, options) => {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
-  name = name.substring(0, 1).toUpperCase() + name.substring(1);
+  if(!options.keepName) {
+    // Capitalize component name
+    name = name.substring(0, 1).toUpperCase() + name.substring(1);
+  }
   let basePath = path.normalize("src/components");
   if (options?.path) {
     basePath = path.normalize(options?.path);
