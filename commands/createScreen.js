@@ -189,18 +189,18 @@ export const useStyles = () => {
   }
 
   async function executeInDryRunMode() {
-    consoleCreate(path.normalize(`${basePath}/${name}.tsx`));
-    consoleCreate(path.normalize(`${basePath}/${name}.types.ts`));
+    consoleCreate(path.normalize(`${basePath}/${name}/${name}.tsx`));
+    consoleCreate(path.normalize(`${basePath}/${name}/${name}.types.ts`));
     if (options?.test) {
       consoleCreate(
         path.normalize(`${basePath}/${name}/__tests__/${name}.test.tsx`)
       );
     }
     if (options?.style) {
-      consoleCreate(path.normalize(`${basePath}/${name}.styles.ts`));
+      consoleCreate(path.normalize(`${basePath}/${name}/${name}.styles.ts`));
     }
     if (options?.const) {
-      consoleCreate(path.normalize(`${basePath}/${name}.constants.ts`));
+      consoleCreate(path.normalize(`${basePath}/${name}/${name}.constants.ts`));
     }
     consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
     consoleDryRunMessage();
