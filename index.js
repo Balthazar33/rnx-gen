@@ -22,9 +22,13 @@ program.name(CLI_NAME).description(CLI_DESCRIPTION).version(CLI_VERSION);
 program
   .command(commands.CREATE_REDUX.command)
   .description(commands.CREATE_REDUX.description)
-  .action(() => {
+  .option(
+    commands.CREATE_REDUX.options.DRY_RUN,
+    "Execute the command without creating any file"
+  )
+  .action((options) => {
     try {
-      createRedux();
+      createRedux(options);
     } catch (error) {
       consoleError(
         `An error occurred while executing the script. Please try again.`
@@ -39,11 +43,21 @@ program
   .option(commands.CREATE.options.NO_CONST, "do not create a constants file")
   .option(commands.CREATE.options.NO_TEST, "do not create a test file")
   .option(commands.CREATE.options.NO_STYLE, "do not create a styles file")
-  .option(commands.CREATE.options.PATH, "custom path for the files, starting from src")
-  .option(commands.CREATE.options.KEEP_NAME, "use the resource name provided without modification")
+  .option(
+    commands.CREATE.options.PATH,
+    "custom path for the files, starting from src"
+  )
+  .option(
+    commands.CREATE.options.KEEP_NAME,
+    "use the resource name provided without modification"
+  )
   .option(
     commands.CREATE.options.NO_DIR,
     "do not create a separate folder for the files"
+  )
+  .option(
+    commands.CREATE.options.DRY_RUN,
+    "Execute the command without creating any file"
   )
   .action((type, name, options) => {
     try {

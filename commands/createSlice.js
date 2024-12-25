@@ -5,6 +5,7 @@ const {
   consoleDone,
   consoleCreate,
   iFileNameValid,
+  consoleDryRunMessage,
 } = require("../helpers");
 
 const createslice = async (name, options) => {
@@ -22,10 +23,10 @@ const createslice = async (name, options) => {
   } else {
     nameWithoutSlice = name?.slice?.(0, -5);
   }
-  if(!options.keepName) {
+  if (!options.keepName) {
     if (!name.toLowerCase().endsWith("slice")) {
       name = name + "Slice";
-    } 
+    }
   }
   let basePath = path.normalize("src/redux/slices");
   if (options?.path) {
@@ -35,35 +36,48 @@ const createslice = async (name, options) => {
   const sliceFileName = `${name}.ts`;
   const sliceFile = path.join(dir, sliceFileName);
 
-  // Creating directory, if doesn't exist
-  await fs.ensureDir(dir);
-
-  //-----------------------------------------------------------------------------
-  // Creating slice file, if doesn't exist
-  if (await doesFileExist(sliceFile)) {
-    console.log(`File ${sliceFile} already exists. Skipping file creation...`);
-    return;
+  if (options?.dryRun) {
+    executeInDryRunMode();
+  } else {
+    executeInNormalMode();
   }
-  await fs.writeFile(
-    sliceFile,
-    `import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+  async function executeInNormalMode() {
+    // Creating directory, if doesn't exist
+    await fs.ensureDir(dir);
+
+    //-----------------------------------------------------------------------------
+    // Creating slice file, if doesn't exist
+    if (await doesFileExist(sliceFile)) {
+      console.log(
+        `File ${sliceFile} already exists. Skipping file creation...`
+      );
+      return;
+    }
+    await fs.writeFile(
+      sliceFile,
+      `import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 const initialState = {};
 
 const ${name} = createSlice({
-  name: '${nameWithoutSlice}',
-  initialState,
-  reducers: {},
+name: '${nameWithoutSlice}',
+initialState,
+reducers: {},
 });
 
 export const {} = ${name}.actions;
 export default ${name}.reducer;
 `
-  );
-  consoleCreate(path.normalize(`${basePath}/${sliceFileName}`));
-  //-----------------------------------------------------------------------------
+    );
+    consoleCreate(path.normalize(`${basePath}/${sliceFileName}`));
+    //-----------------------------------------------------------------------------
 
-  consoleDone();
+    consoleDone();
+  }
+  async function executeInDryRunMode() {
+    consoleCreate(path.normalize(`${basePath}/${sliceFileName}`));
+    consoleDryRunMessage();
+  }
 };
 
 module.exports = { createslice };
