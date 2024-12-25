@@ -15,11 +15,19 @@ const iFileNameValid = (string) => {
 };
 
 const consoleDone = () => {
-  console.log(chalk.green("DONE!"));
+  console.log(chalk`
+{rgb(0, 255, 251) Done!}`);
+};
+
+const consoleDryRunMessage = () => {
+  console.log(
+    chalk`
+{rgb(255, 225, 0) Command executed with dry-run enabled; no files have been created}`
+  );
 };
 
 const consoleCreate = (filename) => {
-  console.log(chalk.blueBright(`CREATED: ${filename}`));
+  console.log(chalk`{rgb(0, 255, 179) Create:} ${filename}`);
 };
 
 const consoleError = (message) => {
@@ -33,4 +41,5 @@ module.exports = {
   consoleCreate,
   iFileNameValid,
   consoleError,
+  consoleDryRunMessage,
 };

@@ -5,6 +5,7 @@ const {
   consoleDone,
   consoleCreate,
   iFileNameValid,
+  consoleDryRunMessage,
 } = require("../helpers");
 
 const createHook = async (name, options) => {
@@ -16,7 +17,7 @@ const createHook = async (name, options) => {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
-  if(!options.keepName) {
+  if (!options.keepName) {
     if (!name.toLowerCase().startsWith("use")) {
       name = "use" + name.substring(0, 1).toUpperCase() + name.substring(1);
     }
@@ -33,74 +34,102 @@ const createHook = async (name, options) => {
   const hookFileName = `${name}.ts`;
   const hookFile = path.join(dir, hookFileName);
 
-  // Creating directory, if doesn't exist----------------------------------------
-  if ((await fs.pathExists(dir)) && options?.dir) {
-    console.log(`Directory ${dir} already exists!`);
-    return;
+  if (options?.dryRun) {
+    executeInDryRunMode();
+  } else {
+    executeInNormalMode();
   }
-  await fs.ensureDir(dir);
-  //-----------------------------------------------------------------------------
 
-  //Creating hook file, if doesn't exist-----------------------------------------
-  if (await doesFileExist(hookFile)) {
-    console.log(`File ${hookFile} already exists. Skipping file creation...`);
-    return;
-  }
-  await fs.writeFile(
-    hookFile,
-    `import React, {useState, useEffect} from 'react';
+  async function executeInNormalMode() {
+    // Creating directory, if doesn't exist----------------------------------------
+    if ((await fs.pathExists(dir)) && options?.dir) {
+      console.log(`Directory ${dir} already exists!`);
+      return;
+    }
+    await fs.ensureDir(dir);
+    //-----------------------------------------------------------------------------
+
+    //Creating hook file, if doesn't exist-----------------------------------------
+    if (await doesFileExist(hookFile)) {
+      console.log(`File ${hookFile} already exists. Skipping file creation...`);
+      return;
+    }
+    await fs.writeFile(
+      hookFile,
+      `import React, {useState, useEffect} from 'react';
 
 const ${name} = () => {
-  return {};
+return {};
 };
 
 export default ${name};
 `
-  );
-  consoleCreate(
-    path.normalize(
-      `${basePath}${options?.dir ? `/${name}/` : "/"}${hookFileName}`
-    )
-  );
-  //-----------------------------------------------------------------------------
+    );
+    consoleCreate(
+      path.normalize(
+        `${basePath}${options?.dir ? `/${name}/` : "/"}${hookFileName}`
+      )
+    );
+    //-----------------------------------------------------------------------------
 
-  //Creating test file, if doesn't exist-----------------------------------------
-  if (options?.test) {
-    const testFile = path.join(dir, `${name}.test.ts`);
-    if (await doesFileExist(testFile)) {
-      console.log(`File ${testFile} already exists. Skipping file creation...`);
-      return;
-    }
-    await fs.writeFile(
-      testFile,
-      `import {describe} from '@jest/globals';
+    //Creating test file, if doesn't exist-----------------------------------------
+    if (options?.test) {
+      const testFile = path.join(dir, `${name}.test.ts`);
+      if (await doesFileExist(testFile)) {
+        console.log(
+          `File ${testFile} already exists. Skipping file creation...`
+        );
+        return;
+      }
+      await fs.writeFile(
+        testFile,
+        `import {describe} from '@jest/globals';
 
 import ${name} from './${name}';
 
 describe('${name}', () => {});
 `
-    );
+      );
+      consoleCreate(
+        path.normalize(
+          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.test.ts`
+        )
+      );
+    }
+    //-----------------------------------------------------------------------------
+
+    // Creating index file---------------------------------------------------------
+    if (options?.dir) {
+      const indexFile = path.join(dir, "index.ts");
+      await fs.writeFile(
+        indexFile,
+        `export { default } from './${name}.ts';
+`
+      );
+      consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+    }
+    //-----------------------------------------------------------------------------
+
+    consoleDone();
+  }
+  async function executeInDryRunMode() {
     consoleCreate(
       path.normalize(
-        `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.test.ts`
+        `${basePath}${options?.dir ? `/${name}/` : "/"}${hookFileName}`
       )
     );
+    if (options?.test) {
+      consoleCreate(
+        path.normalize(
+          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.test.ts`
+        )
+      );
+    }
+    if (options?.dir) {
+      consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+    }
+    consoleDryRunMessage();
   }
-  //-----------------------------------------------------------------------------
-
-  // Creating index file---------------------------------------------------------
-  if (options?.dir) {
-    const indexFile = path.join(dir, "index.ts");
-    await fs.writeFile(
-      indexFile,
-      `export { default } from './${name}.ts';
-`
-    );
-    consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
-  }
-  //-----------------------------------------------------------------------------
-
-  consoleDone();
 };
 
 module.exports = { createHook };
