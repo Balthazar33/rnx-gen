@@ -83,7 +83,7 @@ const ${name} = () => {
 `
     }
     export default ${name};
-    `
+`
     );
     consoleCreate(
       path.normalize(
@@ -110,7 +110,7 @@ export const useStyles = () => {
     container: {},
   });
 };
-s`
+`
       );
       consoleCreate(
         path.normalize(
