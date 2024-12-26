@@ -58,29 +58,29 @@ const createComponent = async (name, options) => {
     await fs.writeFile(
       componentFile,
       `import React from 'react';
-    import { View, Text } from 'react-native';
+import { View, Text } from 'react-native';
     
     ${
       options?.style
         ? `import {useStyles} from './${name}.styles';
     
-    const ${name} = () => {
-      const style = useStyles();
-      return (
-        <View style={style.container}>
-          <Text>${name} component</Text>
-        </View>
-      );
-    };
-    `
+const ${name} = () => {
+  const style = useStyles();
+  return (
+    <View style={style.container}>
+      <Text>${name} component</Text>
+    </View>
+  );
+};
+`
         : `const ${name} = () => {
-      return (
-        <View>
-          <Text>${name} component</Text>
-        </View>
-      );
-    };
-    `
+  return (
+    <View>
+      <Text>${name} component</Text>
+    </View>
+  );
+};
+`
     }
     export default ${name};
     `
@@ -105,12 +105,12 @@ const createComponent = async (name, options) => {
         stylesFile,
         `import { StyleSheet } from 'react-native';
     
-    export const useStyles = () => {
-      return StyleSheet.create({
-        container: {},
-      });
-    };
-    `
+export const useStyles = () => {
+  return StyleSheet.create({
+    container: {},
+  });
+};
+s`
       );
       consoleCreate(
         path.normalize(
@@ -135,18 +135,18 @@ const createComponent = async (name, options) => {
         testFile,
         `import React from 'react';
     
-    import {it, describe, expect} from '@jest/globals';
-    import renderer from 'react-test-renderer';
+import {it, describe, expect} from '@jest/globals';
+import renderer from 'react-test-renderer';
     
-    import ${name} from '../${name}';
+import ${name} from '../${name}';
     
-    describe('${name}', () => {
-      it('renders correctly', () => {
-        const elementTree = renderer.create(<${name} />).toJSON();
-        expect(elementTree).toMatchSnapshot();
-      });
-    });
-    `
+describe('${name}', () => {
+  it('renders correctly', () => {
+    const elementTree = renderer.create(<${name} />).toJSON();
+    expect(elementTree).toMatchSnapshot();
+  });
+});
+`
       );
       consoleCreate(
         path.normalize(
@@ -164,7 +164,7 @@ const createComponent = async (name, options) => {
       await fs.writeFile(
         indexFile,
         `export { default } from './${name}.tsx';
-    `
+`
       );
       consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
     }
@@ -173,26 +173,13 @@ const createComponent = async (name, options) => {
     consoleDone();
   }
   function executeInDryRunMode() {
-    consoleCreate(
-      path.normalize(
-        `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.tsx`
-      )
-    );
+    const commonPath = `${basePath}${options?.dir ? `/${name}/` : "/"}`;
+    consoleCreate(path.normalize(`${commonPath}${name}.tsx`));
     if (options?.style) {
-      consoleCreate(
-        path.normalize(
-          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.styles.ts`
-        )
-      );
+      consoleCreate(path.normalize(`${commonPath}${name}.styles.ts`));
     }
     if (options?.test) {
-      consoleCreate(
-        path.normalize(
-          `${basePath}${
-            options?.dir ? `/${name}/` : "/"
-          }__tests__/${name}.test.tsx`
-        )
-      );
+      consoleCreate(path.normalize(`${commonPath}__tests__/${name}.test.tsx`));
     }
     if (options?.dir) {
       consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
