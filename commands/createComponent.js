@@ -59,11 +59,11 @@ const createComponent = async (name, options) => {
       componentFile,
       `import React from 'react';
 import { View, Text } from 'react-native';
-    
-    ${
-      options?.style
-        ? `import {useStyles} from './${name}.styles';
-    
+
+${
+  options?.style
+    ? `import {useStyles} from './${name}.styles';
+
 const ${name} = () => {
   const style = useStyles();
   return (
@@ -73,7 +73,7 @@ const ${name} = () => {
   );
 };
 `
-        : `const ${name} = () => {
+    : `const ${name} = () => {
   return (
     <View>
       <Text>${name} component</Text>
@@ -81,8 +81,8 @@ const ${name} = () => {
   );
 };
 `
-    }
-    export default ${name};
+}
+export default ${name};
 `
     );
     consoleCreate(
@@ -104,7 +104,7 @@ const ${name} = () => {
       await fs.writeFile(
         stylesFile,
         `import { StyleSheet } from 'react-native';
-    
+
 export const useStyles = () => {
   return StyleSheet.create({
     container: {},
@@ -137,9 +137,9 @@ export const useStyles = () => {
     
 import {it, describe, expect} from '@jest/globals';
 import renderer from 'react-test-renderer';
-    
+
 import ${name} from '../${name}';
-    
+
 describe('${name}', () => {
   it('renders correctly', () => {
     const elementTree = renderer.create(<${name} />).toJSON();
