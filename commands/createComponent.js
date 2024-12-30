@@ -1,14 +1,8 @@
-const fs = require("fs-extra");
-const path = require("path");
-const {
-  doesFileExist,
-  consoleDone,
-  consoleCreate,
-  iFileNameValid,
-  consoleDryRunMessage,
-} = require("../helpers");
+import fs from "fs-extra";
+import path from "path";
+import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleDryRunMessage} from "../helpers.js";
 
-const createComponent = async (name, options) => {
+export const createComponent = async (name, options) => {
   if (options?.path && !options?.path?.startsWith("src")) {
     consoleError("Path must begin with 'src'");
     return;
@@ -187,5 +181,3 @@ describe('${name}', () => {
     consoleDryRunMessage();
   }
 };
-
-module.exports = { createComponent };

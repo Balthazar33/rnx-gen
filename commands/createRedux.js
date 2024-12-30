@@ -1,14 +1,12 @@
-const fs = require("fs-extra");
-const path = require("path");
-const {
-  doesFileExist,
-  consoleDone,
-  consoleCreate,
-  consoleError,
-  consoleDryRunMessage,
-} = require("../helpers");
+import fs from "fs-extra";
+import path from "path";
+import {createPromptModule} from "inquirer";
+import {exec} from "child_process";
+import ora from 'ora';
 
-const createRedux = async (options) => {
+import {doesFileExist, consoleDone, consoleCreate, consoleError, consoleDryRunMessage} from "../helpers.js";
+
+export const createRedux = async (options) => {
   const basePath = "src/redux";
   const dir = path.join(process.cwd(), basePath);
   const reducersFile = path.join(dir, "rootReducer.ts");
@@ -166,9 +164,35 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
     );
     consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
     //-----------------------------------------------------------------------------
+    const prompt = createPromptModule?.();
+    console.log("");
+    await prompt?.([
+      {
+        type: "confirm",
+        name: "install",
+        message: "Do you want to install @reduxjs/toolkit and react-redux?",
+        default: false,
+      },
+    ])
+      .then((answers) => {
+        if (answers.install) {
+          try {
+            const spinner = ora(`Installing dependencies...`).start(); 
+            exec("npm i @reduxjs/toolkit react-redux", () => {
+              spinner.stop();
+              consoleDone();
+            });
+          } catch (error) {
+            spinner.stop();
+            consoleError("Could not install dependencies");
+          }
+        } else {
+          consoleDone();
+        }
+      })
+      .catch(() => {});
+  }
 
-    consoleDone();
-  };
   async function executeInDryRunMode() {
     consoleCreate(path.normalize(`${basePath}/rootReducer.ts`));
     consoleCreate(path.normalize(`${basePath}/slices/appSlice.ts`));
@@ -176,7 +200,5 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
     consoleCreate(path.normalize(`${basePath}/store.utils.ts`));
     consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
     consoleDryRunMessage();
-  };
+  }
 };
-
-module.exports = { createRedux };

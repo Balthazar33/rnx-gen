@@ -1,19 +1,13 @@
 #!/usr/bin/env node
 
-const { Command } = require("commander");
-const { createScreen } = require("./commands/createScreen");
-const { createHook } = require("./commands/createHook");
-const {
-  resourceTypes,
-  CLI_NAME,
-  CLI_VERSION,
-  CLI_DESCRIPTION,
-  commands,
-} = require("./constants");
-const { createComponent } = require("./commands/createComponent");
-const { consoleError } = require("./helpers");
-const { createslice } = require("./commands/createSlice");
-const { createRedux } = require("./commands/createRedux");
+import {Command} from "commander";
+import {createScreen} from "./commands/createScreen.js";
+import {createHook} from "./commands/createHook.js";
+import {resourceTypes, CLI_NAME, CLI_VERSION, CLI_DESCRIPTION, commands} from "./constants.js";
+import {createComponent} from "./commands/createComponent.js";
+import {consoleError} from "./helpers.js";
+import {createslice} from "./commands/createSlice.js";
+import {createRedux} from "./commands/createRedux.js";
 
 const program = new Command();
 

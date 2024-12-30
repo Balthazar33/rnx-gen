@@ -1,14 +1,14 @@
-const fs = require("fs-extra");
-const path = require("path");
-const {
+import fs from "fs-extra";
+import path from "path";
+import {
   doesFileExist,
   consoleDone,
   consoleCreate,
   iFileNameValid,
   consoleDryRunMessage,
-} = require("../helpers");
+} from "../helpers.js";
 
-const createHook = async (name, options) => {
+export const createHook = async (name, options) => {
   if (options?.path && !options?.path?.startsWith("src")) {
     consoleError("Path must begin with 'src'");
     return;
@@ -131,5 +131,3 @@ describe('${name}', () => {});
     consoleDryRunMessage();
   }
 };
-
-module.exports = { createHook };

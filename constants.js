@@ -25,9 +25,9 @@ const commands = {
        */
       PATH: "--path <path>",
       /**
-       * Use the name passed by the user as 
+       * Use the name passed by the user as
        */
-      KEEP_NAME: "--keep-name", 
+      KEEP_NAME: "--keep-name",
       /**
        * Execute commands in dry run mode without generating/modifying any files
        */
@@ -48,13 +48,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.1.4";
+const CLI_VERSION = "1.1.5";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 
-module.exports = {
-  resourceTypes,
-  commands,
-  CLI_NAME,
-  CLI_VERSION,
-  CLI_DESCRIPTION,
-};
+export { resourceTypes, commands, CLI_NAME, CLI_VERSION, CLI_DESCRIPTION };

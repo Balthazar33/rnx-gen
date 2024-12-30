@@ -1,15 +1,8 @@
-const fs = require("fs-extra");
-const path = require("path");
-const {
-  doesFileExist,
-  consoleDone,
-  consoleCreate,
-  iFileNameValid,
-  consoleError,
-  consoleDryRunMessage,
-} = require("../helpers");
+import fs from "fs-extra";
+import path from "path";
+import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleError, consoleDryRunMessage} from "../helpers.js";
 
-const createScreen = async (name, options) => {
+export const createScreen = async (name, options) => {
   if (options?.path && !options?.path?.startsWith("src")) {
     consoleError("Path must begin with 'src'");
     return;
@@ -69,7 +62,7 @@ const ${name} = () => {
   const style = useStyles();
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <Text>${name} Screen</Text>
     </View>
   );
@@ -206,5 +199,3 @@ export const useStyles = () => {
     consoleDryRunMessage();
   }
 };
-
-module.exports = { createScreen };

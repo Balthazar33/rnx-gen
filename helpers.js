@@ -1,5 +1,5 @@
-const fs = require("fs").promises;
-const chalk = require("chalk");
+import { promises as fs } from "fs";
+import chalk from "chalk";
 
 const doesFileExist = async (filePath) => {
   try {
@@ -35,7 +35,7 @@ const consoleError = (message) => {
   console.log(message);
 };
 
-module.exports = {
+export {
   doesFileExist,
   consoleDone,
   consoleCreate,

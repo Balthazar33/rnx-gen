@@ -1,14 +1,8 @@
-const fs = require("fs-extra");
-const path = require("path");
-const {
-  doesFileExist,
-  consoleDone,
-  consoleCreate,
-  iFileNameValid,
-  consoleDryRunMessage,
-} = require("../helpers");
+import fs from "fs-extra";
+import path from "path";
+import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleDryRunMessage} from "../helpers.js";
 
-const createslice = async (name, options) => {
+export const createslice = async (name, options) => {
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;
@@ -79,5 +73,3 @@ export default ${name}.reducer;
     consoleDryRunMessage();
   }
 };
-
-module.exports = { createslice };
