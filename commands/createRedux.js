@@ -1,10 +1,21 @@
 import fs from "fs-extra";
+import parser from "@babel/parser";
 import path from "path";
-import {createPromptModule} from "inquirer";
-import {exec} from "child_process";
-import ora from 'ora';
+import { createPromptModule } from "inquirer";
+import { exec } from "child_process";
+import ora from "ora";
+import generate from "@babel/generator";
+import babelTypes from "@babel/types";
+import prettier from 'prettier';
 
-import {doesFileExist, consoleDone, consoleCreate, consoleError, consoleDryRunMessage} from "../helpers.js";
+import {
+  doesFileExist,
+  consoleDone,
+  consoleCreate,
+  consoleError,
+  consoleDryRunMessage,
+  consoleUpdate,
+} from "../helpers.js";
 
 export const createRedux = async (options) => {
   const basePath = "src/redux";
@@ -164,9 +175,138 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
     );
     consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
     //-----------------------------------------------------------------------------
+
+    const wrapWithProvider = async () => {
+      // Wrapping the app with Provider--------------------------------------------
+      try {
+        const filePath = path.join(process.cwd(), "App.tsx");
+        const fileContent = fs.readFileSync(filePath, "utf-8");
+        const ast = parser.parse(fileContent, {
+          sourceType: "module",
+          plugins: ["jsx", "typescript"],
+        });
+        function wrapReturnInProvider(ast) {
+          let hasReturnStatement = false;
+          const traverse = (node) => {
+            if (node.type === "ReturnStatement") {
+              hasReturnStatement = true;
+              const returnExpression = node.argument;
+              if (
+                returnExpression &&
+                (returnExpression.type === "JSXElement" ||
+                  returnExpression.type === "JSXFragment")
+              ) {
+                node.argument = {
+                  type: "JSXElement",
+                  openingElement: {
+                    type: "JSXOpeningElement",
+                    name: {
+                      type: "JSXIdentifier",
+                      name: "Provider",
+                    },
+                    attributes: [
+                      {
+                        type: "JSXAttribute",
+                        name: {
+                          type: "JSXIdentifier",
+                          name: "store",
+                        },
+                        value: {
+                          type: "JSXExpressionContainer",
+                          expression: {
+                            type: "Identifier",
+                            name: "store",
+                          },
+                        },
+                      },
+                    ],
+                    selfClosing: false,
+                  },
+                  closingElement: {
+                    type: "JSXClosingElement",
+                    name: {
+                      type: "JSXIdentifier",
+                      name: "Provider",
+                    },
+                  },
+                  children: [returnExpression],
+                };
+              }
+            }
+            if (
+              node.type === "FunctionDeclaration" ||
+              node.type === "ArrowFunctionExpression" ||
+              node.type === "FunctionExpression"
+            ) {
+              if (node.body && node.body.body) {
+                node.body.body.forEach(traverse);
+              }
+            } else if (node.type === "BlockStatement") {
+              node.body.forEach(traverse);
+            } else if (node.type === "JSXElement") {
+              node.children.forEach(traverse);
+            }
+          };
+          ast.program.body.forEach(traverse);
+          if (!hasReturnStatement) {
+            throw new Error("No return statement found in App.tsx");
+          }
+          return ast;
+        }
+        const importProviderAst = babelTypes.importDeclaration(
+          [
+            babelTypes.importSpecifier(
+              babelTypes.identifier("Provider"),
+              babelTypes.identifier("Provider")
+            ),
+          ],
+          babelTypes.stringLiteral(`react-redux`)
+        );
+        const storeProviderAst = babelTypes.importDeclaration(
+          [
+            babelTypes.importSpecifier(
+              babelTypes.identifier("store"),
+              babelTypes.identifier("store")
+            ),
+          ],
+          babelTypes.stringLiteral(`./src/redux/store.utils`)
+        );
+        ast.program.body.unshift(storeProviderAst);
+        ast.program.body.unshift(importProviderAst);
+        const modifiedAst = wrapReturnInProvider(ast);
+        const { code } = generate.default(modifiedAst, {
+          compact: false,
+          retainLines: true,
+          jsescOption: { minimal: true },
+        });
+        const formattedCode = await prettier.format(code, {
+          semi: true,
+          singleQuote: true,
+          trailingComma: 'all',
+          bracketSpacing: true,
+          jsxBracketSameLine: false,
+          arrowParens: 'always',
+          tabWidth: 2,
+          importOrderSeparation: true,
+          parser: 'babel-ts',
+        });
+        fs.writeFileSync(filePath, formattedCode, "utf-8");
+        consoleUpdate('App.tsx');
+      } catch (error) {
+        consoleError('Could not update App.tsx');
+      }
+      //---------------------------------------------------------------------------
+    };
+
     const prompt = createPromptModule?.();
     console.log("");
     await prompt?.([
+      {
+        type: "confirm",
+        name: "wrap",
+        message: "Do you want to wrap the app with the Provider component?",
+        default: false,
+      },
       {
         type: "confirm",
         name: "install",
@@ -174,10 +314,13 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         default: false,
       },
     ])
-      .then((answers) => {
+      .then(async (answers) => {
+        if (answers?.wrap) {
+          await wrapWithProvider();
+        }
         if (answers.install) {
           try {
-            const spinner = ora(`Installing dependencies...`).start(); 
+            const spinner = ora(`Installing dependencies...`).start();
             exec("npm i @reduxjs/toolkit react-redux", () => {
               spinner.stop();
               consoleDone();

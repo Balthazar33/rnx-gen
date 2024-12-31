@@ -48,7 +48,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.1.5";
+const CLI_VERSION = "1.1.6";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 
 export { resourceTypes, commands, CLI_NAME, CLI_VERSION, CLI_DESCRIPTION };

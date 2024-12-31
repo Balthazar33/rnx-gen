@@ -30,6 +30,10 @@ const consoleCreate = (filename) => {
   console.log(chalk`{rgb(0, 255, 179) Create:} ${filename}`);
 };
 
+const consoleUpdate = (filename) => {
+  console.log(chalk`{rgb(0, 166, 255) Update:} ${filename}`);
+};
+
 const consoleError = (message) => {
   console.log(chalk.redBright("ERROR"));
   console.log(message);
@@ -42,4 +46,5 @@ export {
   iFileNameValid,
   consoleError,
   consoleDryRunMessage,
+  consoleUpdate,
 };
