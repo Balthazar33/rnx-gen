@@ -6,7 +6,7 @@ import { exec } from "child_process";
 import ora from "ora";
 import generate from "@babel/generator";
 import babelTypes from "@babel/types";
-import prettier from 'prettier';
+import prettier from "prettier";
 
 import {
   doesFileExist,
@@ -282,18 +282,19 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         const formattedCode = await prettier.format(code, {
           semi: true,
           singleQuote: true,
-          trailingComma: 'all',
+          trailingComma: "all",
           bracketSpacing: true,
           jsxBracketSameLine: false,
-          arrowParens: 'always',
+          arrowParens: "always",
           tabWidth: 2,
           importOrderSeparation: true,
-          parser: 'babel-ts',
+          parser: "babel-ts",
         });
         fs.writeFileSync(filePath, formattedCode, "utf-8");
-        consoleUpdate('App.tsx');
+        console.log("");
+        consoleUpdate("App.tsx");
       } catch (error) {
-        consoleError('Could not update App.tsx');
+        consoleError("Could not update App.tsx");
       }
       //---------------------------------------------------------------------------
     };
@@ -320,6 +321,7 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         }
         if (answers.install) {
           try {
+            console.log("");
             const spinner = ora(`Installing dependencies...`).start();
             exec("npm i @reduxjs/toolkit react-redux", () => {
               spinner.stop();
