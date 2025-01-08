@@ -8,6 +8,7 @@ import {createComponent} from "./commands/createComponent.js";
 import {consoleError} from "./helpers.js";
 import {createslice} from "./commands/createSlice.js";
 import {createRedux} from "./commands/createRedux.js";
+import {createApi} from "./commands/createApi.js";
 
 const program = new Command();
 
@@ -63,6 +64,8 @@ program
         createComponent(name, options);
       } else if (type === resourceTypes.SLICE) {
         createslice(name, options);
+      } else if (type === resourceTypes.API) {
+        createApi(name, options);
       } else {
         consoleError(`Unsupported resource type: ${type}`);
       }

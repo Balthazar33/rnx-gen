@@ -35,8 +35,7 @@ const consoleUpdate = (filename) => {
 };
 
 const consoleError = (message) => {
-  console.log(chalk.redBright("ERROR"));
-  console.log(message);
+  console.log(chalk`{rgb(255, 55, 0) Error:} ${message}`);
 };
 
 export {

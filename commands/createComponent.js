@@ -1,6 +1,6 @@
 import fs from "fs-extra";
 import path from "path";
-import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleDryRunMessage} from "../helpers.js";
+import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleDryRunMessage, consoleError} from "../helpers.js";
 
 export const createComponent = async (name, options) => {
   if (options?.path && !options?.path?.startsWith("src")) {
@@ -37,16 +37,14 @@ export const createComponent = async (name, options) => {
   async function executeInNormalMode() {
     // Creating directory, if doesn't exist----------------------------------------
     if ((await fs.pathExists(dir)) && options?.dir) {
-      console.log(`Directory ${dir} already exists!`);
+      consoleError(`Directory ${dir} already exists!`);
       return;
     }
     await fs.ensureDir(dir);
     //-----------------------------------------------------------------------------
     //Creating component file, if doesn't exist---------------------------------------
     if (await doesFileExist(componentFile)) {
-      console.log(
-        `File ${componentFile} already exists. Skipping file creation...`
-      );
+      consoleError(`File ${componentFile} already exists. Skipping file creation...`);
       return;
     }
     await fs.writeFile(
@@ -90,9 +88,7 @@ export default ${name};
     if (options?.style) {
       const stylesFile = path.join(dir, `${name}.styles.ts`);
       if (await doesFileExist(stylesFile)) {
-        console.log(
-          `File ${stylesFile} already exists. Skipping file creation...`
-        );
+        consoleError(`File ${stylesFile} already exists. Skipping file creation...`);
         return;
       }
       await fs.writeFile(
@@ -120,9 +116,7 @@ export const useStyles = () => {
       await fs.ensureDir(testsDir);
       const testFile = path.join(testsDir, `${name}.test.tsx`);
       if (await doesFileExist(testFile)) {
-        console.log(
-          `File ${testFile} already exists. Skipping file creation...`
-        );
+        consoleError(`File ${testFile} already exists. Skipping file creation...`);
         return;
       }
       await fs.writeFile(

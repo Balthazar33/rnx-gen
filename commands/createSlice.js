@@ -42,7 +42,7 @@ export const createslice = async (name, options) => {
     //-----------------------------------------------------------------------------
     // Creating slice file, if doesn't exist
     if (await doesFileExist(sliceFile)) {
-      console.log(
+      consoleError(
         `File ${sliceFile} already exists. Skipping file creation...`
       );
       return;

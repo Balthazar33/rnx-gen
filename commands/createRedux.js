@@ -36,7 +36,7 @@ export const createRedux = async (options) => {
   async function executeInNormalMode() {
     // Creating redux directory, if doesn't exist----------------------------------
     if (await fs.pathExists(dir)) {
-      console.log(`Directory ${dir} already exists!`);
+      consoleError(`Directory ${dir} already exists!`);
       return;
     }
     await fs.ensureDir(dir);
@@ -44,7 +44,7 @@ export const createRedux = async (options) => {
 
     //-Creating reducers file, if doesn't exist------------------------------------
     if (await doesFileExist(reducersFile)) {
-      console.log(
+      consoleError(
         `File ${reducersFile} already exists. Skipping file creation...`
       );
       return;
@@ -67,7 +67,7 @@ export default rootReducer;
     //Creating slices directory & file, if doesn't exist---------------------------
     await fs.ensureDir(slicesDirectory);
     if (await doesFileExist(slicesFile)) {
-      console.log(
+      consoleError(
         `File ${slicesFile} already exists. Skipping file creation...`
       );
       return;
@@ -99,7 +99,7 @@ export default appSlice.reducer;
 
     //Creating store file, if doesn't exist----------------------------------------
     if (await doesFileExist(storeFile)) {
-      console.log(
+      consoleError(
         `File ${storeFile} already exists. Skipping file creation...`
       );
       return;
@@ -129,7 +129,7 @@ export default configureAppStore;
 
     //Creating store.utils file, if doesn't exist----------------------------------
     if (await doesFileExist(storeUtilsFile)) {
-      console.log(
+      consoleError(
         `File ${storeUtilsFile} already exists. Skipping file creation...`
       );
       return;
@@ -160,7 +160,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
     //Creating appSelector.ts file, if doesn't exist-------------------------------
     if (await doesFileExist(selectorFile)) {
-      console.log(
+      consoleError(
         `File ${selectorFile} already exists. Skipping file creation...`
       );
       return;

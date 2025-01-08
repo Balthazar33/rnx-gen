@@ -127,7 +127,33 @@ src
 | --keep-name | Use the resource name provided as an option without modification   |
 | --dry-run   | Simulate command execution without creating any files              |
 
-### 5. Set up Redux files (Redux toolkit) with boilerplate code for each file
+### 5. Generate a new api with boilerplate code
+
+```bash
+npx rnx-gen g api dashboard
+```
+
+#### Result:
+
+```bash
+src
+   |-services
+        |-api
+            |-dashboardApi
+                |-dashboardApi.ts
+                |-index.ts
+```
+
+#### Command options:
+
+| Option      | Descriptions                                                     |
+| ----------- | ---------------------------------------------------------------- |
+| --path      | Custom path beginning with src (example --path=src/api/home)     |
+| --keep-name | Use the resource name provided as an option without modification |
+| --no-dir    | Do not create a separate folder for the api                      |
+| --dry-run   | Simulate command execution without creating any files            |
+
+### 6. Set up Redux files (Redux toolkit) with boilerplate code for each file
 
 ```bash
 npx rnx-gen redux
@@ -154,9 +180,13 @@ src
 | --dry-run | Simulate command execution without creating any files |
 
 ## Dry run
+
 #### Execute any command with the --dry-run option to simulate file creation
+
 #### Example:
+
 ```bash
-npx rnx-gen g screen Splash --dry-run 
+npx rnx-gen g screen Splash --dry-run
 ```
+
 ![dry run example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/dry-run-ss.png?raw=true)

@@ -37,14 +37,14 @@ export const createScreen = async (name, options) => {
   async function executeInNormalMode() {
     // Creating directory, if doesn't exist
     if (await fs.pathExists(dir)) {
-      console.log(`Directory ${dir} already exists!`);
+      consoleError(`Directory ${dir} already exists!`);
       return;
     }
     await fs.ensureDir(dir);
 
     //Creating UI file, if doesn't exist-------------------------------------------
     if (await doesFileExist(componentFile)) {
-      console.log(
+      consoleError(
         `File ${componentFile} already exists. Skipping file creation...`
       );
       return;
@@ -84,7 +84,7 @@ export default ${name};
 
     //Creating types file, if doesn't exist----------------------------------------
     if (await doesFileExist(typesFile)) {
-      console.log(
+      consoleError(
         `File ${typesFile} already exists. Skipping file creation...`
       );
       return;
@@ -103,7 +103,7 @@ export default ${name};
       await fs.ensureDir(testsDir);
       const testFile = path.join(testsDir, `${name}.test.tsx`);
       if (await doesFileExist(testFile)) {
-        console.log(
+        consoleError(
           `File ${testFile} already exists. Skipping file creation...`
         );
         return;
@@ -135,7 +135,7 @@ describe('${name}', () => {
     if (options?.style) {
       const stylesFile = path.join(dir, `${name}.styles.ts`);
       if (await doesFileExist(stylesFile)) {
-        console.log(
+        consoleError(
           `File ${stylesFile} already exists. Skipping file creation...`
         );
         return;
@@ -159,7 +159,7 @@ export const useStyles = () => {
     if (options.const) {
       const constantsFile = path.join(dir, `${name}.constants.ts`);
       if (await doesFileExist(constantsFile)) {
-        console.log(
+        consoleError(
           `File ${constantsFile} already exists. Skipping file creation...`
         );
         return;

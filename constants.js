@@ -4,6 +4,7 @@ const resourceTypes = {
   COMPONENT: "component",
   SLICE: "slice",
   REDUX: "redux",
+  API: "api",
 };
 
 const commands = {
