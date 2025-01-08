@@ -141,17 +141,19 @@ src
         |-api
             |-dashboardApi
                 |-dashboardApi.ts
+                |-dashboardApi.endpoints.ts
                 |-index.ts
 ```
 
 #### Command options:
 
-| Option      | Descriptions                                                     |
-| ----------- | ---------------------------------------------------------------- |
-| --path      | Custom path beginning with src (example --path=src/api/home)     |
-| --keep-name | Use the resource name provided as an option without modification |
-| --no-dir    | Do not create a separate folder for the api                      |
-| --dry-run   | Simulate command execution without creating any files            |
+| Option         | Descriptions                                                     |
+| -------------- | ---------------------------------------------------------------- |
+| --path         | Custom path beginning with src (example --path=src/api/home)     |
+| --keep-name    | Use the resource name provided as an option without modification |
+| --no-endpoints | Do not create the endpoints file                                 |
+| --no-dir       | Do not create a separate folder for the api                      |
+| --dry-run      | Simulate command execution without creating any files            |
 
 ### 6. Set up Redux files (Redux toolkit) with boilerplate code for each file
 

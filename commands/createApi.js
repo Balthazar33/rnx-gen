@@ -10,7 +10,9 @@ import {
   iFileNameValid,
   consoleDryRunMessage,
   consoleError,
+  consoleNote,
 } from "../helpers.js";
+import { RTK_QUERY_API_NOTE } from "../constants.js";
 
 export const createApi = async (name, options) => {
   if (options?.path && !options?.path?.startsWith("src")) {
@@ -58,10 +60,16 @@ export const createApi = async (name, options) => {
       consoleError(`File ${apiFile} already exists. Skipping file creation...`);
       return;
     }
+    const enumName = `${name?.[0]?.toUpperCase?.() + name?.substring?.(1)}Endpoints`;
     await fs.writeFile(
       apiFile,
       `import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-
+${
+  options?.endpoints
+    ? `import {${enumName}} from './${name}.endpoints.ts';
+`
+    : ""
+}
 const BASE_URL = '';
 
 export const ${name} = createApi({
@@ -71,8 +79,8 @@ export const ${name} = createApi({
     // Sample query
     getData: builder.query({
       query: (params) => ({
-        url: '',
-        method: '',
+        url: ${options?.endpoints ? `${enumName}.ALL` : "''"},
+        method: 'GET',
         params,
       }),
       transformResponse: (response, meta, _) => ({data: response, meta}),
@@ -86,6 +94,31 @@ export const {useLazyGetDataQuery} = ${name};
     consoleCreate(
       path.normalize(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.ts`)
     );
+    //-----------------------------------------------------------------------------
+
+    // Creating endpoints file-----------------------------------------------------
+    if (options?.endpoints) {
+      const endpointsFile = path.join(dir, `${name}.endpoints.ts`);
+      if (await doesFileExist(endpointsFile)) {
+        consoleError(
+          `File ${endpointsFile} already exists. Skipping file creation...`
+        );
+        return;
+      }
+      const enumName = `${name?.[0]?.toUpperCase?.() + name?.substring?.(1)}Endpoints`;
+      await fs.writeFile(
+        endpointsFile,
+        `export enum ${enumName} {
+  ALL = '/all',
+}
+`
+      );
+      consoleCreate(
+        path.normalize(
+          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
+        )
+      );
+    }
     //-----------------------------------------------------------------------------
 
     // Creating index file---------------------------------------------------------
@@ -118,6 +151,10 @@ export const {useLazyGetDataQuery} = ${name};
             exec("npm i @reduxjs/toolkit", () => {
               spinner.stop();
               consoleDone();
+              if (options?.endpoints) {
+                console.log("");
+                consoleNote(RTK_QUERY_API_NOTE);
+              }
             });
           } catch (error) {
             spinner.stop();
@@ -125,6 +162,10 @@ export const {useLazyGetDataQuery} = ${name};
           }
         } else {
           consoleDone();
+          if (options?.endpoints) {
+            console.log("");
+            consoleNote(RTK_QUERY_API_NOTE);
+          }
         }
       })
       .catch(() => {});
@@ -136,6 +177,13 @@ export const {useLazyGetDataQuery} = ${name};
     );
     if (options?.dir) {
       consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+    }
+    if (options?.endpoints) {
+      consoleCreate(
+        path.normalize(
+          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
+        )
+      );
     }
     consoleDryRunMessage();
   }

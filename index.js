@@ -51,6 +51,10 @@ program
     "do not create a separate folder for the files"
   )
   .option(
+    commands.CREATE.options.NO_ENDPOINT,
+    "do not create the endpoints file"
+  )
+  .option(
     commands.CREATE.options.DRY_RUN,
     "Execute the command without creating any file"
   )
