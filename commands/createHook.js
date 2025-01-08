@@ -6,6 +6,7 @@ import {
   consoleCreate,
   iFileNameValid,
   consoleDryRunMessage,
+  consoleError,
 } from "../helpers.js";
 
 export const createHook = async (name, options) => {
@@ -43,7 +44,7 @@ export const createHook = async (name, options) => {
   async function executeInNormalMode() {
     // Creating directory, if doesn't exist----------------------------------------
     if ((await fs.pathExists(dir)) && options?.dir) {
-      console.log(`Directory ${dir} already exists!`);
+      consoleError(`Directory ${dir} already exists!`);
       return;
     }
     await fs.ensureDir(dir);
@@ -51,7 +52,9 @@ export const createHook = async (name, options) => {
 
     //Creating hook file, if doesn't exist-----------------------------------------
     if (await doesFileExist(hookFile)) {
-      console.log(`File ${hookFile} already exists. Skipping file creation...`);
+      consoleError(
+        `File ${hookFile} already exists. Skipping file creation...`
+      );
       return;
     }
     await fs.writeFile(
@@ -76,7 +79,7 @@ export default ${name};
     if (options?.test) {
       const testFile = path.join(dir, `${name}.test.ts`);
       if (await doesFileExist(testFile)) {
-        console.log(
+        consoleError(
           `File ${testFile} already exists. Skipping file creation...`
         );
         return;

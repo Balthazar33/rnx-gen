@@ -44,7 +44,7 @@ src
 | --no-const  | Do not create the constants file                                 |
 | --no-style  | Do not create the styles file                                    |
 | --path      | Custom path beginning with src (example --path=src/screens/auth) |
-| --keep-name | Use the resource name provided as an option without modification |
+| --keep-name | Use the resource name provided without modification              |
 | --dry-run   | Simulate command execution without creating any files            |
 
 ### 2. Generate files for a new component with boilerplate code for each file
@@ -74,7 +74,7 @@ src
 | --no-dir    | Do not create a separate folder for the component                    |
 | --no-style  | Do not create the styles file                                        |
 | --path      | Custom path beginning with src (example --path=src/components/cards) |
-| --keep-name | Use the resource name provided as an option without modification     |
+| --keep-name | Use the resource name provided without modification                  |
 | --dry-run   | Simulate command execution without creating any files                |
 
 ### 3. Generate a new hook file with boilerplate code
@@ -96,13 +96,13 @@ src
 
 #### Command options:
 
-| Option      | Descriptions                                                     |
-| ----------- | ---------------------------------------------------------------- |
-| --no-test   | Do not create the test file                                      |
-| --no-dir    | Do not create a separate folder for the hook                     |
-| --path      | Custom path beginning with src (example --path=src/hooks/data)   |
-| --keep-name | Use the resource name provided as an option without modification |
-| --dry-run   | Simulate command execution without creating any files            |
+| Option      | Descriptions                                                   |
+| ----------- | -------------------------------------------------------------- |
+| --no-test   | Do not create the test file                                    |
+| --no-dir    | Do not create a separate folder for the hook                   |
+| --path      | Custom path beginning with src (example --path=src/hooks/data) |
+| --keep-name | Use the resource name provided without modification            |
+| --dry-run   | Simulate command execution without creating any files          |
 
 ### 4. Generate a new Redux slice with boilerplate code
 
@@ -124,10 +124,38 @@ src
 | Option      | Descriptions                                                       |
 | ----------- | ------------------------------------------------------------------ |
 | --path      | Custom path beginning with src (example --path=src/redux/reducers) |
-| --keep-name | Use the resource name provided as an option without modification   |
+| --keep-name | Use the resource name provided without modification                |
 | --dry-run   | Simulate command execution without creating any files              |
 
-### 5. Set up Redux files (Redux toolkit) with boilerplate code for each file
+### 5. Generate a new api with boilerplate code
+
+```bash
+npx rnx-gen g api dashboard
+```
+
+#### Result:
+
+```bash
+src
+   |-services
+        |-api
+            |-dashboardApi
+                |-dashboardApi.ts
+                |-dashboardApi.endpoints.ts
+                |-index.ts
+```
+
+#### Command options:
+
+| Option         | Descriptions                                                 |
+| -------------- | ------------------------------------------------------------ |
+| --path         | Custom path beginning with src (example --path=src/api/home) |
+| --keep-name    | Use the resource name provided without modification          |
+| --no-endpoints | Do not create the endpoints file                             |
+| --no-dir       | Do not create a separate folder for the api                  |
+| --dry-run      | Simulate command execution without creating any files        |
+
+### 6. Set up Redux files (Redux toolkit) with boilerplate code for each file
 
 ```bash
 npx rnx-gen redux
@@ -154,9 +182,13 @@ src
 | --dry-run | Simulate command execution without creating any files |
 
 ## Dry run
+
 #### Execute any command with the --dry-run option to simulate file creation
+
 #### Example:
+
 ```bash
-npx rnx-gen g screen Splash --dry-run 
+npx rnx-gen g screen Splash --dry-run
 ```
+
 ![dry run example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/dry-run-ss.png?raw=true)

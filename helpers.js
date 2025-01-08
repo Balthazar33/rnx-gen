@@ -22,7 +22,7 @@ const consoleDone = () => {
 const consoleDryRunMessage = () => {
   console.log(
     chalk`
-{rgb(255, 225, 0) Command executed with dry-run enabled; no files have been created}`
+{rgb(255, 225, 0) Command executed with dry-run enabled; no files were created}`
   );
 };
 
@@ -35,8 +35,11 @@ const consoleUpdate = (filename) => {
 };
 
 const consoleError = (message) => {
-  console.log(chalk.redBright("ERROR"));
-  console.log(message);
+  console.log(chalk`{rgb(255, 55, 0) Error:} ${message}`);
+};
+
+const consoleNote = (message) => {
+  console.log(chalk`{rgb(255, 225, 0) Note:} ${message}`);
 };
 
 export {
@@ -47,4 +50,5 @@ export {
   consoleError,
   consoleDryRunMessage,
   consoleUpdate,
+  consoleNote,
 };

@@ -8,6 +8,7 @@ import {createComponent} from "./commands/createComponent.js";
 import {consoleError} from "./helpers.js";
 import {createslice} from "./commands/createSlice.js";
 import {createRedux} from "./commands/createRedux.js";
+import {createApi} from "./commands/createApi.js";
 
 const program = new Command();
 
@@ -50,6 +51,10 @@ program
     "do not create a separate folder for the files"
   )
   .option(
+    commands.CREATE.options.NO_ENDPOINT,
+    "do not create the endpoints file"
+  )
+  .option(
     commands.CREATE.options.DRY_RUN,
     "Execute the command without creating any file"
   )
@@ -63,6 +68,8 @@ program
         createComponent(name, options);
       } else if (type === resourceTypes.SLICE) {
         createslice(name, options);
+      } else if (type === resourceTypes.API) {
+        createApi(name, options);
       } else {
         consoleError(`Unsupported resource type: ${type}`);
       }
