@@ -54,6 +54,10 @@ const commands = {
     command: "redux",
     options: {
       /**
+       * Custom path for the redux folder
+       */
+      PATH: "--path <path>",
+      /**
        * Execute commands in dry run mode without generating/modifying any files
        */
       DRY_RUN: "--dry-run",
@@ -62,7 +66,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.2.0";
+const CLI_VERSION = "1.2.1";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 const RTK_QUERY_API_NOTE =
   "Add the auto-generated Redux slice and the custom middleware to the Redux store. Visit https://redux-toolkit.js.org/rtk-query/overview#configure-the-store to learn more.";

@@ -3,10 +3,6 @@ import path from "path";
 import {doesFileExist, consoleDone, consoleCreate, iFileNameValid, consoleError, consoleDryRunMessage} from "../helpers.js";
 
 export const createScreen = async (name, options) => {
-  if (options?.path && !options?.path?.startsWith("src")) {
-    consoleError("Path must begin with 'src'");
-    return;
-  }
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;

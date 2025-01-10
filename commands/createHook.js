@@ -10,10 +10,6 @@ import {
 } from "../helpers.js";
 
 export const createHook = async (name, options) => {
-  if (options?.path && !options?.path?.startsWith("src")) {
-    consoleError("Path must begin with 'src'");
-    return;
-  }
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;

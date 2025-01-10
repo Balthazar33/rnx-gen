@@ -15,10 +15,6 @@ import {
 import { RTK_QUERY_API_NOTE } from "../constants.js";
 
 export const createApi = async (name, options) => {
-  if (options?.path && !options?.path?.startsWith("src")) {
-    consoleError("Path must begin with 'src'");
-    return;
-  }
   if (!iFileNameValid(name)) {
     consoleError(`Invalid file name: ${name}`);
     return;

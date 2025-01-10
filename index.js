@@ -1,14 +1,20 @@
 #!/usr/bin/env node
 
-import {Command} from "commander";
-import {createScreen} from "./commands/createScreen.js";
-import {createHook} from "./commands/createHook.js";
-import {resourceTypes, CLI_NAME, CLI_VERSION, CLI_DESCRIPTION, commands} from "./constants.js";
-import {createComponent} from "./commands/createComponent.js";
-import {consoleError} from "./helpers.js";
-import {createslice} from "./commands/createSlice.js";
-import {createRedux} from "./commands/createRedux.js";
-import {createApi} from "./commands/createApi.js";
+import { Command } from "commander";
+import { createScreen } from "./commands/createScreen.js";
+import { createHook } from "./commands/createHook.js";
+import {
+  resourceTypes,
+  CLI_NAME,
+  CLI_VERSION,
+  CLI_DESCRIPTION,
+  commands,
+} from "./constants.js";
+import { createComponent } from "./commands/createComponent.js";
+import { consoleError } from "./helpers.js";
+import { createslice } from "./commands/createSlice.js";
+import { createRedux } from "./commands/createRedux.js";
+import { createApi } from "./commands/createApi.js";
 
 const program = new Command();
 
@@ -17,6 +23,7 @@ program.name(CLI_NAME).description(CLI_DESCRIPTION).version(CLI_VERSION);
 program
   .command(commands.CREATE_REDUX.command)
   .description(commands.CREATE_REDUX.description)
+  .option(commands.CREATE.options.PATH, "custom path for the redux folder")
   .option(
     commands.CREATE_REDUX.options.DRY_RUN,
     "Execute the command without creating any file"
@@ -38,10 +45,7 @@ program
   .option(commands.CREATE.options.NO_CONST, "do not create a constants file")
   .option(commands.CREATE.options.NO_TEST, "do not create a test file")
   .option(commands.CREATE.options.NO_STYLE, "do not create a styles file")
-  .option(
-    commands.CREATE.options.PATH,
-    "custom path for the files, starting from src"
-  )
+  .option(commands.CREATE.options.PATH, "custom path for the files")
   .option(
     commands.CREATE.options.KEEP_NAME,
     "use the resource name provided without modification"

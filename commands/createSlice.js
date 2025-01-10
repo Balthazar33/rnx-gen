@@ -7,10 +7,6 @@ export const createslice = async (name, options) => {
     consoleError(`Invalid file name: ${name}`);
     return;
   }
-  if (options?.path && !options?.path?.startsWith("src")) {
-    consoleError("Path must begin with 'src'");
-    return;
-  }
   let nameWithoutSlice;
   if (!name.toLowerCase().endsWith("slice")) {
     nameWithoutSlice = name;

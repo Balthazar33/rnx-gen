@@ -18,7 +18,10 @@ import {
 } from "../helpers.js";
 
 export const createRedux = async (options) => {
-  const basePath = "src/redux";
+  let basePath = "src/redux";
+  if (options?.path) {
+    basePath = path.normalize(options?.path);
+  }
   const dir = path.join(process.cwd(), basePath);
   const reducersFile = path.join(dir, "rootReducer.ts");
   const storeFile = path.join(dir, "store.ts");
@@ -269,7 +272,11 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
               babelTypes.identifier("store")
             ),
           ],
-          babelTypes.stringLiteral(`./src/redux/store.utils`)
+          babelTypes.stringLiteral(
+            options?.path
+              ? `./${basePath}/store.utils`
+              : `./src/redux/store.utils`
+          )
         );
         ast.program.body.unshift(storeProviderAst);
         ast.program.body.unshift(importProviderAst);
