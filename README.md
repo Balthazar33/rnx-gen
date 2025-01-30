@@ -24,18 +24,21 @@
   - [Redux folder](#redux-folder)
 - [Dry run](#dry-run)
 
-
 ## The problem
+
 If you follow the recommended folder structure for React Native apps, you have to create multiple files for a single screen or a component (styles, constants, types etc.). This wastes a lot of time.
 
 ## The solution
+
 Use `rnx-gen` to create common resources with a single command.\
 Here's how you would generate the files for a new screen component:
 
 ![create screen example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-example-screen.png?raw=true)
 
 ## Installation
+
 Save `rnx-gen` as a dev dependency
+
 ```bash
 npm i rnx-gen --save-dev
 ```
@@ -200,14 +203,16 @@ src
         |-rootReducer.ts
         |-store.ts
         |-store.utils.ts
+        |-test.utils.tsx
 ```
 
 - Command options
 
-| Option    | Descriptions                                          |
-| --------- | ----------------------------------------------------- |
-| --path    | Custom path for the redux folder                      |
-| --dry-run | Simulate command execution without creating any files |
+| Option        | Descriptions                                          |
+| ------------- | ----------------------------------------------------- |
+| --path        | Custom path for the redux folder                      |
+| --no-testutil | Do not create the test.utils.tsx file                 |
+| --dry-run     | Simulate command execution without creating any files |
 
 ## Dry run
 
