@@ -26,6 +26,7 @@ export const createRedux = async (options) => {
   const reducersFile = path.join(dir, "rootReducer.ts");
   const storeFile = path.join(dir, "store.ts");
   const storeUtilsFile = path.join(dir, "store.utils.ts");
+  const testUtilsFile = path.join(dir, "test.utils.tsx");
   const slicesDirectory = path.join(dir, "slices");
   const selectorsDirectory = path.join(dir, "selectors");
   const selectorFile = path.join(selectorsDirectory, "appSelector.ts");
@@ -153,6 +154,66 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 `
     );
     consoleCreate(path.normalize(`${basePath}/store.utils.ts`));
+    //-----------------------------------------------------------------------------
+
+    //Creating test.utils.tsx file, if doesn't exist----------------------------------
+    if (options?.testutil) {
+      if (await doesFileExist(testUtilsFile)) {
+        consoleError(
+          `File ${testUtilsFile} already exists. Skipping file creation...`
+        );
+        return;
+      }
+      await fs.writeFile(
+        testUtilsFile,
+        `// Source: https://redux.js.org/usage/writing-tests#setting-up-a-reusable-test-render-function
+
+import React, {PropsWithChildren} from 'react';
+
+import {Provider} from 'react-redux';
+import {render} from '@testing-library/react-native';
+import type {RenderOptions} from '@testing-library/react-native';
+
+import configureAppStore from './store';
+import type {AppStore, RootState} from './store.utils';
+import {NavigationContainer} from '@react-navigation/native';
+
+interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
+  preloadedState?: Partial<RootState>;
+  store?: AppStore;
+}
+
+// Render component with Providers for testing
+export function renderWithProviders(
+  ui: React.ReactElement,
+  {
+    preloadedState = {},
+    // Automatically create a store instance if no store was passed in
+    store = configureAppStore(preloadedState),
+    ...renderOptions
+  }: ExtendedRenderOptions = {},
+  /**
+   * Whether the provided component is to be wrapped with the NavigationContainer or not.
+   * @default false
+   */
+  excludeNavigationContainer = false,
+) {
+  function Wrapper({children}: PropsWithChildren<{}>): JSX.Element {
+    return excludeNavigationContainer ? (
+      <Provider store={store}>{children}</Provider>
+    ) : (
+      <Provider store={store}>
+        <NavigationContainer>{children}</NavigationContainer>
+      </Provider>
+    );
+  }
+
+  return {store, ...render(ui, {wrapper: Wrapper, ...renderOptions})};
+}
+`
+      );
+      consoleCreate(path.normalize(`${basePath}/test.utils.tsx`));
+    }
     //-----------------------------------------------------------------------------
 
     //Creating selectors directory, if doesn't exist-------------------------------
@@ -318,7 +379,7 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
       {
         type: "confirm",
         name: "install",
-        message: "Do you want to install @reduxjs/toolkit and react-redux?",
+        message: `Do you want to install @reduxjs/toolkit${options?.testutil ? ", @testing-library/react-native," : ""} and react-redux?`,
         default: false,
       },
     ])
@@ -330,7 +391,7 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
           try {
             console.log("");
             const spinner = ora(`Installing dependencies...`).start();
-            exec("npm i @reduxjs/toolkit react-redux", () => {
+            exec(`npm i @reduxjs/toolkit react-redux ${options?.testutil ? '@testing-library/react-native' : ''}`, () => {
               spinner.stop();
               consoleDone();
             });
@@ -349,6 +410,9 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
     consoleCreate(path.normalize(`${basePath}/rootReducer.ts`));
     consoleCreate(path.normalize(`${basePath}/slices/appSlice.ts`));
     consoleCreate(path.normalize(`${basePath}/store.ts`));
+    if (options?.testutil) {
+      consoleCreate(path.normalize(`${basePath}/test.utils.tsx`));
+    }
     consoleCreate(path.normalize(`${basePath}/store.utils.ts`));
     consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
     consoleDryRunMessage();

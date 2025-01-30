@@ -1,13 +1,43 @@
-# rnx-gen
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-dark.png">
+    <img src="https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-light.png" width="800px" alt="RnxGen" />
+  </picture>
+</p>
+<p align="center">Opinionated resources generator for React Native</p>
+<p align="center">
+   <a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/v/rnx-gen.svg" alt="NPM Version" /></a>
+   <a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/l/rnx-gen.svg" alt="Package License" /></a>
+</p>
 
-## Opinionated resources generator for React Native
+---
+
+- [The problem](#the-problem)
+- [The solution](#the-solution)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Screen](#screen)
+  - [Component](#component)
+  - [Hook](#hook)
+  - [Redux Slice](#redux-slice)
+  - [Api](#api)
+  - [Redux folder](#redux-folder)
+- [Dry run](#dry-run)
+
+## The problem
+
+If you follow the recommended folder structure for React Native apps, you have to create multiple files for a single screen or a component (styles, constants, types etc.). This wastes a lot of time.
+
+## The solution
+
+Use `rnx-gen` to create common resources with a single command.\
+Here's how you would generate the files for a new screen component:
 
 ![create screen example](https://github.com/Balthazar33/rnx-gen/blob/main/assets/rnx-gen-example-screen.png?raw=true)
 
-<a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/v/rnx-gen.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/package/rnx-gen"><img src="https://img.shields.io/npm/l/rnx-gen.svg" alt="Package License" /></a>
+## Installation
 
-### Installation
+Save `rnx-gen` as a dev dependency
 
 ```bash
 npm i rnx-gen --save-dev
@@ -15,13 +45,13 @@ npm i rnx-gen --save-dev
 
 ## Usage
 
-### 1. Generate files for a new screen with boilerplate code for each file
+### Screen
 
 ```bash
 npx rnx-gen g screen UserProfile
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -36,7 +66,7 @@ src
             |-index.ts
 ```
 
-#### Command options:
+- Command options
 
 | Option      | Descriptions                                          |
 | ----------- | ----------------------------------------------------- |
@@ -47,13 +77,13 @@ src
 | --keep-name | Use the resource name provided without modification   |
 | --dry-run   | Simulate command execution without creating any files |
 
-### 2. Generate files for a new component with boilerplate code for each file
+### Component
 
 ```bash
 npx rnx-gen g component AlertModal
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -66,7 +96,7 @@ src
             |-index.ts
 ```
 
-#### Command options:
+- Command options
 
 | Option      | Descriptions                                          |
 | ----------- | ----------------------------------------------------- |
@@ -77,13 +107,13 @@ src
 | --keep-name | Use the resource name provided without modification   |
 | --dry-run   | Simulate command execution without creating any files |
 
-### 3. Generate a new hook file with boilerplate code
+### Hook
 
 ```bash
 npx rnx-gen g hook profileData
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -94,7 +124,7 @@ src
             |-index.ts
 ```
 
-#### Command options:
+- Command options
 
 | Option      | Descriptions                                          |
 | ----------- | ----------------------------------------------------- |
@@ -104,13 +134,13 @@ src
 | --keep-name | Use the resource name provided without modification   |
 | --dry-run   | Simulate command execution without creating any files |
 
-### 4. Generate a new Redux slice with boilerplate code
+### Redux slice
 
 ```bash
 npx rnx-gen g slice users
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -119,7 +149,7 @@ src
             |-usersSlice.ts
 ```
 
-#### Command options:
+- Command options
 
 | Option      | Descriptions                                          |
 | ----------- | ----------------------------------------------------- |
@@ -127,13 +157,13 @@ src
 | --keep-name | Use the resource name provided without modification   |
 | --dry-run   | Simulate command execution without creating any files |
 
-### 5. Generate a new api with boilerplate code
+### Api
 
 ```bash
 npx rnx-gen g api dashboard
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -145,7 +175,7 @@ src
                 |-index.ts
 ```
 
-#### Command options:
+- Command options
 
 | Option         | Descriptions                                          |
 | -------------- | ----------------------------------------------------- |
@@ -155,13 +185,13 @@ src
 | --no-dir       | Do not create a separate folder for the api           |
 | --dry-run      | Simulate command execution without creating any files |
 
-### 6. Set up Redux files (Redux toolkit) with boilerplate code for each file
+### Redux folder
 
 ```bash
 npx rnx-gen redux
 ```
 
-#### Result:
+- Result
 
 ```bash
 src
@@ -173,20 +203,22 @@ src
         |-rootReducer.ts
         |-store.ts
         |-store.utils.ts
+        |-test.utils.tsx
 ```
 
-#### Command options:
+- Command options
 
-| Option    | Descriptions                                          |
-| --------- | ----------------------------------------------------- |
-| --path    | Custom path for the redux folder                      |
-| --dry-run | Simulate command execution without creating any files |
+| Option        | Descriptions                                          |
+| ------------- | ----------------------------------------------------- |
+| --path        | Custom path for the redux folder                      |
+| --no-testutil | Do not create the test.utils.tsx file                 |
+| --dry-run     | Simulate command execution without creating any files |
 
 ## Dry run
 
-#### Execute any command with the --dry-run option to simulate file creation
+#### Execute any command with the `--dry-run` option to simulate file creation
 
-#### Example:
+- Example
 
 ```bash
 npx rnx-gen g screen Splash --dry-run

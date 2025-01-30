@@ -28,6 +28,10 @@ program
     commands.CREATE_REDUX.options.DRY_RUN,
     "Execute the command without creating any file"
   )
+  .option(
+    commands.CREATE_REDUX.options.NO_TEST_UTIL,
+    "do not create the test.utils.tsx file"
+  )
   .action((options) => {
     try {
       createRedux(options);
