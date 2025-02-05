@@ -118,7 +118,7 @@ export const useStyles = () => {
       await fs.writeFile(
         testFile,
         `import React from 'react';
-    
+
 import {it, describe, expect} from '@jest/globals';
 import renderer from 'react-test-renderer';
 
