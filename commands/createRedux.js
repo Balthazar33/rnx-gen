@@ -409,7 +409,7 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
                 )?.[0] || "latest";
               try {
                 execSync(
-                  `npm i react-test-renderer@${reactMajorVersion} @testing-library/react-native@${matchingVersion} `
+                  `npm i react-test-renderer@${reactMajorVersion} @testing-library/react-native@${matchingVersion} --save-dev`
                 );
               } catch (error) {
                 consoleError(
