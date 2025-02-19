@@ -17,6 +17,7 @@ import {
   consoleUpdate,
   getReactNativeVersion,
   getReactVersion,
+  getPeerDependencies,
 } from "../helpers.js";
 
 export const createRedux = async (options) => {
@@ -81,6 +82,7 @@ export default rootReducer;
     await fs.writeFile(
       slicesFile,
       `import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import {RootState} from '../store.utils';
 
 const initialState = {
   loading: false,
@@ -96,6 +98,7 @@ const appSlice = createSlice({
   },
 });
 
+export const selectApp = ((state: RootState) => state.app);
 export const {setLoading} = appSlice.actions;
 export default appSlice.reducer;
 `
@@ -234,9 +237,9 @@ export function renderWithProviders(
     await fs.writeFile(
       selectorFile,
       `import {createSelector} from '@reduxjs/toolkit';
-import {RootState} from '../store.utils';
+import {selectApp} from '../slices/appSlice';
 
-export const selectLoading = createSelector((state: RootState) => state.app.loading);
+export const selectLoading = createSelector([selectApp], (app) => app.loading);
 `
     );
     consoleCreate(path.normalize(`${basePath}/selectors/appSelector.ts`));
@@ -394,37 +397,46 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         if (answers.install) {
           try {
             const spinner = ora(`Installing dependencies...`).start();
-            if (options?.testutil) {
-              const rnVersion = getReactNativeVersion();
-              const reactVersion = getReactVersion();
-              const reactMajorVersion = reactVersion.match(/\d+/)?.[0];
-              const peerDeps = JSON.parse(
-                execSync(
-                  "npm info @testing-library/react-native peerDependencies --json"
-                ).toString()
-              );
-              const matchingVersion =
-                Object.entries(peerDeps || {}).find(([_, range]) =>
-                  rnVersion.startsWith(range.split(".")[0])
-                )?.[0] || "latest";
-              try {
-                execSync(
-                  `npm i react-test-renderer@${reactMajorVersion} @testing-library/react-native@${matchingVersion} --save-dev`
-                );
-              } catch (error) {
-                consoleError(
-                  "Could not install @testing-library/react-native, please install manually."
-                );
-              }
-            }
             exec("npm i @reduxjs/toolkit react-redux", (x) => {
-              spinner.stop();
               if (x) {
                 consoleError(
-                  "Could not install dependencies, please install manually."
+                  "Could not install @reduxjs/toolkit & react-redux, please install manually."
                 );
               } else {
-                consoleDone();
+                if (options?.testutil) {
+                  getPeerDependencies((peerDeps) => {
+                    if (peerDeps) {
+                      const rnVersion = getReactNativeVersion();
+                      const reactVersion = getReactVersion();
+                      const reactMajorVersion = reactVersion.match(/\d+/)?.[0];
+                      const matchingVersion =
+                        Object.entries(peerDeps || {}).find(([_, range]) =>
+                          rnVersion.startsWith(range.split(".")[0])
+                        )?.[0] || "latest";
+                      exec(
+                        `npm i react-test-renderer@${reactMajorVersion} @testing-library/react-native@${matchingVersion} --save-dev`,
+                        (x) => {
+                          spinner.stop();
+                          if (x) {
+                            consoleError(
+                              "Could not install @testing-library/react-native, please install manually."
+                            );
+                          } else {
+                            consoleDone();
+                          }
+                        }
+                      );
+                    } else {
+                      spinner.stop();
+                      consoleError(
+                        "Could not install @testing-library/react-native, please install manually."
+                      );
+                    }
+                  });
+                } else {
+                  spinner.stop();
+                  consoleDone();
+                }
               }
             });
           } catch (error) {
