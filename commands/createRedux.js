@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import parser from "@babel/parser";
 import path from "path";
 import { createPromptModule } from "inquirer";
-import { exec } from "child_process";
+import { exec, execSync } from "child_process";
 import ora from "ora";
 import generate from "@babel/generator";
 import babelTypes from "@babel/types";
@@ -15,6 +15,8 @@ import {
   consoleError,
   consoleDryRunMessage,
   consoleUpdate,
+  getReactNativeVersion,
+  getReactVersion,
 } from "../helpers.js";
 
 export const createRedux = async (options) => {
@@ -252,7 +254,9 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         function wrapReturnInProvider(ast) {
           let hasReturnStatement = false;
           const traverse = (node) => {
-            if (node.type === "ReturnStatement") {
+            if (node.type === "ExportDefaultDeclaration") {
+              traverse(node.declaration); // Go inside the exported function
+            } else if (node.type === "ReturnStatement") {
               hasReturnStatement = true;
               const returnExpression = node.argument;
               if (
@@ -362,7 +366,7 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         console.log("");
         consoleUpdate("App.tsx");
       } catch (error) {
-        consoleError("Could not update App.tsx");
+        consoleError("Could not update App.tsx, please update manually.");
       }
       //---------------------------------------------------------------------------
     };
@@ -389,11 +393,39 @@ export const selectLoading = createSelector((state: RootState) => state.app.load
         }
         if (answers.install) {
           try {
-            console.log("");
             const spinner = ora(`Installing dependencies...`).start();
-            exec(`npm i @reduxjs/toolkit react-redux ${options?.testutil ? '@testing-library/react-native' : ''}`, () => {
+            if (options?.testutil) {
+              const rnVersion = getReactNativeVersion();
+              const reactVersion = getReactVersion();
+              const reactMajorVersion = reactVersion.match(/\d+/)?.[0];
+              const peerDeps = JSON.parse(
+                execSync(
+                  "npm info @testing-library/react-native peerDependencies --json"
+                ).toString()
+              );
+              const matchingVersion =
+                Object.entries(peerDeps || {}).find(([_, range]) =>
+                  rnVersion.startsWith(range.split(".")[0])
+                )?.[0] || "latest";
+              try {
+                execSync(
+                  `npm i react-test-renderer@${reactMajorVersion} @testing-library/react-native@${matchingVersion} `
+                );
+              } catch (error) {
+                consoleError(
+                  "Could not install @testing-library/react-native, please install manually."
+                );
+              }
+            }
+            exec("npm i @reduxjs/toolkit react-redux", (x) => {
               spinner.stop();
-              consoleDone();
+              if (x) {
+                consoleError(
+                  "Could not install dependencies, please install manually."
+                );
+              } else {
+                consoleDone();
+              }
             });
           } catch (error) {
             spinner.stop();

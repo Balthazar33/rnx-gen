@@ -1,4 +1,4 @@
-import { promises as fs } from "fs";
+import { promises as fs, readFileSync } from "fs";
 import chalk from "chalk";
 
 const doesFileExist = async (filePath) => {
@@ -42,6 +42,24 @@ const consoleNote = (message) => {
   console.log(chalk`{rgb(255, 225, 0) Note:} ${message}`);
 };
 
+function getReactNativeVersion() {
+  try {
+    const packageJson = JSON.parse(readFileSync("package.json", "utf-8"));
+    return packageJson.dependencies["react-native"] || packageJson.devDependencies["react-native"];
+  } catch {
+    return null;
+  }
+}
+
+function getReactVersion() {
+  try {
+    const packageJson = JSON.parse(readFileSync("package.json", "utf-8"));
+    return packageJson.dependencies["react"] || packageJson.devDependencies["react"];
+  } catch {
+    return null;
+  }
+}
+
 export {
   doesFileExist,
   consoleDone,
@@ -51,4 +69,6 @@ export {
   consoleDryRunMessage,
   consoleUpdate,
   consoleNote,
+  getReactNativeVersion,
+  getReactVersion,
 };
