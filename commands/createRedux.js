@@ -147,13 +147,13 @@ export default configureAppStore;
       storeUtilsFile,
       `import {useDispatch, useSelector, TypedUseSelectorHook} from 'react-redux';
 import configureAppStore from './store';
-import {AnyAction, ThunkDispatch} from '@reduxjs/toolkit';
+import {Action, ThunkDispatch} from '@reduxjs/toolkit';
 
 export const store = configureAppStore();
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppStore = ReturnType<typeof configureAppStore>;
-export type AppThunkDispatch = ThunkDispatch<RootState, any, AnyAction>;
+export type AppThunkDispatch = ThunkDispatch<RootState, any, Action>;
 export const useAppDispatch = () => useDispatch<AppThunkDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 `
