@@ -1,6 +1,6 @@
 {
   "name": "rnx-gen",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Quickly generate resources like screens, components, hooks and more with boilerplate code",
   "main": "index.js",
   "scripts": {
