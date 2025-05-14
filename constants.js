@@ -70,7 +70,7 @@ const commands = {
 };
 
 const CLI_NAME = "rnx-gen";
-const CLI_VERSION = "1.2.4";
+const CLI_VERSION = "1.2.5";
 const CLI_DESCRIPTION = "Opinionated resources generator for React Native";
 const RTK_QUERY_API_NOTE =
   "Add the auto-generated Redux slice and the custom middleware to the Redux store. Visit https://redux-toolkit.js.org/rtk-query/overview#configure-the-store to learn more.";
