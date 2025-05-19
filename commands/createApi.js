@@ -141,9 +141,9 @@ export const {useLazyGetDataQuery} = ${name};
     ])
       .then(async (answers) => {
         if (answers?.install) {
+          console.log("");
+          const spinner = ora(`Installing dependency...`).start();
           try {
-            console.log("");
-            const spinner = ora(`Installing dependency...`).start();
             exec("npm i @reduxjs/toolkit", () => {
               spinner.stop();
               consoleDone();
