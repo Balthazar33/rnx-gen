@@ -87,9 +87,7 @@ export const ${name} = createApi({
 export const {useLazyGetDataQuery} = ${name};
 `
     );
-    consoleCreate(
-      path.normalize(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.ts`)
-    );
+    consoleCreate(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.ts`);
     //-----------------------------------------------------------------------------
 
     // Creating endpoints file-----------------------------------------------------
@@ -110,9 +108,7 @@ export const {useLazyGetDataQuery} = ${name};
 `
       );
       consoleCreate(
-        path.normalize(
-          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
-        )
+        `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
       );
     }
     //-----------------------------------------------------------------------------
@@ -125,7 +121,7 @@ export const {useLazyGetDataQuery} = ${name};
         `export { ${name} } from './${name}.ts';
 `
       );
-      consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+      consoleCreate(basePath + `/${name}/index.ts`);
     }
     //-----------------------------------------------------------------------------
 
@@ -168,17 +164,13 @@ export const {useLazyGetDataQuery} = ${name};
   }
 
   async function executeInDryRunMode() {
-    consoleCreate(
-      path.normalize(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.ts`)
-    );
+    consoleCreate(`${basePath}${options?.dir ? `/${name}/` : "/"}${name}.ts`);
     if (options?.dir) {
-      consoleCreate(path.normalize(basePath + `/${name}/index.ts`));
+      path.normalize(basePath + `/${name}/index.ts`);
     }
     if (options?.endpoints) {
       consoleCreate(
-        path.normalize(
-          `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
-        )
+        `${basePath}${options?.dir ? `/${name}/` : "/"}${name}.endpoints.ts`
       );
     }
     consoleDryRunMessage();

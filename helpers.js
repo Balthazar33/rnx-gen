@@ -1,6 +1,7 @@
 import { promises as fs, readFileSync } from "fs";
 import { exec } from "child_process";
 import chalk from "chalk";
+import path from "path";
 
 const doesFileExist = async (filePath) => {
   try {
@@ -28,7 +29,7 @@ const consoleDryRunMessage = () => {
 };
 
 const consoleCreate = (filename) => {
-  console.log(chalk`{rgb(0, 255, 179) Create:} ${filename}`);
+  console.log(chalk`{rgb(0, 255, 179) Create:} ${path.normalize(filename)}`);
 };
 
 const consoleUpdate = (filename) => {
