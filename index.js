@@ -15,10 +15,28 @@ import { consoleError } from "./helpers.js";
 import { createslice } from "./commands/createSlice.js";
 import { createRedux } from "./commands/createRedux.js";
 import { createApi } from "./commands/createApi.js";
+import { createEnv } from "./commands/createEnv.js";
 
 const program = new Command();
 
 program.name(CLI_NAME).description(CLI_DESCRIPTION).version(CLI_VERSION);
+
+program
+  .command(commands.CREATE_ENV.command)
+  .description(commands.CREATE_ENV.description)
+  .option(
+    commands.CREATE_ENV.options.DRY_RUN,
+    "Execute the command without creating/modifying any file"
+  )
+  .action((options) => {
+    try {
+      createEnv(options);
+    } catch (error) {
+      consoleError(
+        `An error occurred while executing the script. Please try again.`
+      );
+    }
+  });
 
 program
   .command(commands.CREATE_REDUX.command)

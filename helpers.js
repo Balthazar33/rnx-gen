@@ -33,7 +33,7 @@ const consoleCreate = (filename) => {
 };
 
 const consoleUpdate = (filename) => {
-  console.log(chalk`{rgb(0, 166, 255) Update:} ${filename}`);
+  console.log(chalk`{rgb(0, 166, 255) Update:} ${path.normalize(filename)}`);
 };
 
 const consoleError = (message) => {
@@ -85,6 +85,57 @@ function getPeerDependencies(callback) {
   );
 }
 
+const tab8 = " ".repeat(8);
+const tab12 = " ".repeat(12);
+/**
+ *  Get product flavor config for the specified environment
+ * @param {string} envmt - Environment
+ * @returns string
+ */
+const getFlavorConfig = (envmt) => {
+  if (envmt === "production") {
+    return (
+      tab8 +
+      "production {\n" +
+      tab12 +
+      "applicationId defaultConfig.applicationId\n" +
+      tab12 +
+      'resValue "string", "build_config_package", "${defaultConfig.applicationId}"\n' +
+      tab12 +
+      'resValue "string", "app_name", appName\n' +
+      tab8 +
+      "}"
+    );
+  } else {
+    let appName =
+      envmt === "staging"
+        ? "STAGE ${appName}"
+        : envmt === "development"
+          ? "DEV ${appName}"
+          : envmt === "qa"
+            ? "QA ${appName}"
+            : "UAT ${appName}";
+    return (
+      "\n" +
+      tab8 +
+      envmt +
+      " {\n" +
+      tab12 +
+      "applicationIdSuffix " +
+      `".${envmt}"` +
+      "\n" +
+      tab12 +
+      'resValue "string", "build_config_package", "${defaultConfig.applicationId}"\n' +
+      tab12 +
+      'resValue "string", "app_name", ' +
+      `"${appName}"` +
+      "\n" +
+      tab8 +
+      "}"
+    );
+  }
+};
+
 export {
   doesFileExist,
   consoleDone,
@@ -97,4 +148,5 @@ export {
   getReactNativeVersion,
   getReactVersion,
   getPeerDependencies,
+  getFlavorConfig,
 };
