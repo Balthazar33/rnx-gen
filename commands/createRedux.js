@@ -2,7 +2,7 @@ import fs from "fs-extra";
 import parser from "@babel/parser";
 import path from "path";
 import { createPromptModule } from "inquirer";
-import { exec, execSync } from "child_process";
+import { exec } from "child_process";
 import ora from "ora";
 import generate from "@babel/generator";
 import babelTypes from "@babel/types";
@@ -395,8 +395,8 @@ export const selectLoading = createSelector([selectApp], (app) => app.loading);
           await wrapWithProvider();
         }
         if (answers.install) {
+          const spinner = ora(`Installing dependencies...`).start();
           try {
-            const spinner = ora(`Installing dependencies...`).start();
             exec("npm i @reduxjs/toolkit react-redux", (x) => {
               if (x) {
                 consoleError(

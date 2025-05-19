@@ -22,11 +22,12 @@
   - [Redux Slice](#redux-slice)
   - [Api](#api)
   - [Redux folder](#redux-folder)
+  - [Multi-environment setup](#multi-environment-setup)
 - [Dry run](#dry-run)
 
 ## The problem
 
-If you follow the recommended folder structure for React Native apps, you have to create multiple files for a single screen or a component (styles, constants, types etc.). This wastes a lot of time.
+When creating a React Native project with the CLI, quite a lot of files need to be created manually. This can include multiple files for a screen component (types, constants, styles), hooks, apis, or the whole redux store. Configuring multi-environment support for a project is no mean feat either, requiring a significant amount of time.
 
 ## The solution
 
@@ -43,7 +44,15 @@ Save `rnx-gen` as a dev dependency
 npm i rnx-gen --save-dev
 ```
 
+or install it globally
+
+```bash
+npm i -g rnx-gen
+```
+
 ## Usage
+
+> Note: Run all the commands at the root of the project
 
 ### Screen
 
@@ -213,6 +222,52 @@ src
 | --path        | Custom path for the redux folder                      |
 | --no-testutil | Do not create the test.utils.tsx file                 |
 | --dry-run     | Simulate command execution without creating any files |
+
+### Multi-environment setup
+
+Configure multiple environments (`android only`)
+
+```bash
+npx rnx-gen env
+```
+
+- Result
+
+```bash
+android
+   |-app
+        |-build.gradle <-- Modified
+
+package.json <-- Modified
+
+.env.production <-- Created
+.env.development <-- Created (and others selected from the options)
+
+envTypes.d.ts <-- Created
+```
+
+- Command options
+
+| Option                        | Descriptions                                                                                                |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| --dry-run                     | Simulate command execution without creating any files                                                       |
+| Multi-select for environments | Select one or more environments from Development, Staging, QA, and UAT. (Production is selected by default) |
+
+Accessing env variables
+```ts
+// In App.tsx (for instance)
+import Config from 'react-native-config';
+
+const apiKey = Config.DUMMY_API_KEY;
+```
+Running environment-specific debug builds:
+```bash
+npm run android:dev
+npm run android:prod
+npm run android:stage
+npm run android:qa
+npm run android:uat
+```
 
 ## Dry run
 
