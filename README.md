@@ -226,6 +226,11 @@ src
 ### Multi-environment setup
 
 Configure multiple environments (`android only`)
+- Production
+- Development
+- Staging
+- QA
+- UAT
 
 ```bash
 npx rnx-gen env
